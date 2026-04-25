@@ -37,6 +37,7 @@ public class Language {
         Locale locale;
 
         // auto / null / empty → 使用系統 locale
+        // AI Translated: auto / null / empty → use system locale
         if (localeName == null || localeName.equalsIgnoreCase("auto") || localeName.isEmpty()) {
             locale = Locale.getDefault();
             return normalizeLocale(locale);
@@ -68,6 +69,7 @@ public class Language {
 
     private static Locale normalizeLocale(Locale locale) {
         // en（無國家碼）→ en_US（僅對英語進行特殊處理，因為有部分環境會將其解析為 en，而實際上應使用 en_US 作為預設英語）
+        // AI Translated: en (no country code) → en_US (special handling for English only, as some environments parse it as en, while en_US should actually be used as the default English)
         if (locale.getLanguage().equals("en") && locale.getCountry().isEmpty()) {
             return Locale.US; // en_US
         }
@@ -133,6 +135,7 @@ public class Language {
     private String getFromLanguageResource(String path) {
         if (!languageConfigResource.contains(path) || !languageConfigResource.isString(path)) {
             //若無法取得，則自預設語言資源檔取得
+            // AI Translated: If not obtainable, get it from the default language resource file
             languageConfigResource.set(path, getFromDefaultLanguageResource(path));
         }
         return (String) languageConfigResource.get(path);
@@ -141,6 +144,7 @@ public class Language {
     private String getFromDefaultLanguageResource(String path) {
         if (!defaultLanguageConfigResource.contains(path) || !defaultLanguageConfigResource.isString(path)) {
             //若無法取得，則給予[Missing Message]標記
+            // AI Translated: If not obtainable, give it the [Missing Message] mark
             defaultLanguageConfigResource.set(path, "&c[Missing Message] &r" + path);
         }
         return (String) defaultLanguageConfigResource.get(path);
@@ -186,24 +190,31 @@ public class Language {
 
     private void checkConfig(Locale checkLocale) {
         //當前語言設定檔
+        // AI Translated: Current language configuration file
         FileConfiguration config = ConfigManager.get(getFileName(checkLocale));
         //根據預設語言資源檔檢查
+        // AI Translated: Check according to the default language resource file
         int newSettingCount = 0;
         for (String key : defaultLanguageConfigResource.getKeys(true)) {
             //不直接檢查整個段落
+            // AI Translated: Do not directly check the entire section
             if (defaultLanguageConfigResource.isConfigurationSection(key)) {
                 continue;
             }
             //若key已存在也不檢查
+            // AI Translated: If key already exists, do not check either
             if (config.contains(key)) {
                 continue;
             }
             //若未包含該key，將預設值填入語系檔
+            // AI Translated: If the key is not included, fill the default value into the language file
             if (languageConfigResource != null && languageConfigResource.contains(key)) {
                 //優先使用相同語言之資源檔
+                // AI Translated: Prioritize using resource files of the same language
                 config.set(key, languageConfigResource.get(key));
             } else {
                 //採用預設語言
+                // AI Translated: Use default language
                 config.set(key, defaultLanguageConfigResource.get(key));
             }
             newSettingCount++;
@@ -216,6 +227,7 @@ public class Language {
 
     public void loadLanguage() {
         //從設定檔取得語言
+        // AI Translated: Get language from configuration file
         String configFileName = "config.yml";
         FileConfiguration config = ConfigManager.get(configFileName);
         String language = "auto";
@@ -223,41 +235,52 @@ public class Language {
             language = (String) config.get("Language");
         }
         //轉換語言名稱
+        // AI Translated: Convert language name
         locale = parseLocale(language);
 
         //載入預設語言包（但不儲存於資料夾）
+        // AI Translated: Load default language pack (but not saved in folder)
         try {
             Reader defaultLanguageInputStreamReader = new InputStreamReader(Objects.requireNonNull(bm.getResource(getFileName(DEFAULT_LOCALE).replace('\\', '/'))), StandardCharsets.UTF_8);
             defaultLanguageConfigResource = YamlConfiguration.loadConfiguration(defaultLanguageInputStreamReader);
         } catch (Exception ignored) {
         }
         //嘗試當前語言資源檔（但不儲存於資料夾）
+        // AI Translated: Try current language resource file (but not saved in folder)
         try {
             Reader languageInputStreamReader = new InputStreamReader(Objects.requireNonNull(bm.getResource(getFileName(locale).replace('\\', '/'))), StandardCharsets.UTF_8);
             languageConfigResource = YamlConfiguration.loadConfiguration(languageInputStreamReader);
         } catch (Exception ignored) {
         }
         //嘗試載入語言包檔案
+        // AI Translated: Try loading language pack file
         String fileName = getFileName(locale);
         File file = new File(bm.getDataFolder(), fileName);
         //檢查檔案是否存在
+        // AI Translated: Check if the file exists
         if (!file.exists()) {
             try {
                 //若不存在，則嘗試尋找語言包
+                // AI Translated: If it doesn't exist, try to find the language pack
                 bm.saveResource(fileName, false);
             } catch (Exception e) {
                 //若無該語言之語言包，則使用預設語言
+                // AI Translated: If there is no language pack for that language, use the default language
                 locale = DEFAULT_LOCALE;
             }
         }
         //載入語言包
+        // AI Translated: Load language pack
         ConfigManager.load(getFileName(locale));
         //檢查語言包
+        // AI Translated: Check language pack
         checkConfig(locale);
         bm.getLogger().info("Language: " + locale);
         // 設定 ACF 語言
+        // AI Translated: Set ACF language
         bm.getCommandManager().getLocales().setDefaultLocale(locale);
         // 將指令描述注入到 ACF Locales
+        // AI Translated: Inject command descriptions into ACF Locales
         registerCommandDescriptions(locale);
     }
 }

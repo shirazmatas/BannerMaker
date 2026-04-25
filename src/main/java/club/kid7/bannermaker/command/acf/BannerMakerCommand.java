@@ -41,7 +41,9 @@ public class BannerMakerCommand extends BaseCommand {
     @CommandPermission("BannerMaker.use")
     public void onDefault(Player player) {
         // 開啟選單
+        // AI Translated: Open menu
         // TODO: (GUI 遷移) 未來若有需要，可考慮整合 PlayerData 中的頁碼記憶功能。
+        // AI Translated: (GUI migration) In the future, if needed, consider integrating the page number memory function in PlayerData.
         MainMenuGUI.show(player);
     }
 
@@ -69,10 +71,12 @@ public class BannerMakerCommand extends BaseCommand {
             return;
         }
         //根據方塊建立旗幟
+        // AI Translated: Create banner based on the block
         Banner blockState = (Banner) block.getState();
         ItemStack banner = new ItemBuilder(DyeColorRegistry.getBannerMaterial(blockState.getBaseColor()))
             .setPatterns(blockState.getPatterns()).build();
         //顯示旗幟
+        // AI Translated: Display banner
         InventoryMenuUtil.openBannerInfo(player, banner);
     }
 
@@ -86,10 +90,12 @@ public class BannerMakerCommand extends BaseCommand {
             return;
         }
         //複製旗幟，僅保留底色與樣式
+        // AI Translated: Clone banner, keeping only the base color and patterns
         BannerMeta originalBannerMeta = (BannerMeta) itemStack.getItemMeta();
         ItemStack banner = new ItemBuilder(DyeColorRegistry.getBannerMaterial(itemStack.getType()))
             .setPatterns(Objects.requireNonNull(originalBannerMeta).getPatterns()).build();
         //顯示旗幟
+        // AI Translated: Display banner
         InventoryMenuUtil.openBannerInfo(player, banner);
     }
 
@@ -101,6 +107,7 @@ public class BannerMakerCommand extends BaseCommand {
         try {
             ItemStack banner = BannerUtil.deserialize(bannerString);
             //顯示旗幟
+            // AI Translated: Display banner
             InventoryMenuUtil.openBannerInfo(player, banner);
         } catch (Exception e) {
             plugin.getMessageService().send(player, tl("command.invalid-banner-string"));

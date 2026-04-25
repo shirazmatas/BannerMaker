@@ -42,10 +42,13 @@ public class CreateAlphabetGUI {
         }
 
         // Slot 0 (0,0): 預覽
+        // AI Translated: Slot 0 (0,0): Preview
         mainPane.addItem(new GuiItem(currentAlphabetBanner.toItemStack()), 0, 0);
 
         // 底色選擇 (Slots 1-17, 第 0 和 1 行)
+        // AI Translated: Base color selection (Slots 1-17, row 0 and 1)
         // 原始邏輯: i + 1 + (i / 8) -> Slot 1-8, 10-17
+        // AI Translated: Original logic: i + 1 + (i / 8) -> Slot 1-8, 10-17
         for (int i = 0; i < 16; i++) {
             final ItemStack banner = new ItemBuilder(DyeColorRegistry.getBannerMaterial(i)).build();
             int slot = i + 1 + (i / 8);
@@ -58,7 +61,9 @@ public class CreateAlphabetGUI {
         }
 
         // 染料顏色選擇 (Slots 19-35, 第 2 和 3 行)
+        // AI Translated: Dye color selection (Slots 19-35, row 2 and 3)
         // 原始邏輯: 18 + i + 1 + (i / 8) -> Slot 19-26, 28-35
+        // AI Translated: Original logic: 18 + i + 1 + (i / 8) -> Slot 19-26, 28-35
         for (int i = 0; i < 16; i++) {
             final ItemStack dye = new ItemBuilder(DyeColorRegistry.getDyeMaterial(i)).build();
             int slot = 18 + i + 1 + (i / 8);
@@ -71,6 +76,7 @@ public class CreateAlphabetGUI {
         }
 
         // Slot 37 (1,4): 切換邊框
+        // AI Translated: Slot 37 (1,4): Toggle border
         ItemStack btnBorderedBanner = new ItemBuilder(Material.WHITE_BANNER)
             .name(tl(NamedTextColor.GREEN, "gui.toggle-border"))
             .pattern(new Pattern(DyeColor.BLACK, PatternType.BORDER)).build();
@@ -80,8 +86,10 @@ public class CreateAlphabetGUI {
             CreateAlphabetGUI.show(player);
             event.setCancelled(true);
         }), 1, 4); // 修正為 (1, 4)
+        // AI Translated: Corrected to (1, 4)
 
         // Slot 49 (4,5): 旗幟資訊
+        // AI Translated: Slot 49 (4,5): Banner info
         ItemStack btnBannerInfo = new ItemBuilder(Material.LIME_WOOL).name(tl(NamedTextColor.GREEN, "gui.banner-info")).build();
         mainPane.addItem(new GuiItem(btnBannerInfo, event -> {
             playerData.setViewInfoBanner(currentAlphabetBanner.toItemStack());
@@ -89,13 +97,16 @@ public class CreateAlphabetGUI {
             BannerInfoGUI.show(player);
             event.setCancelled(true);
         }), 4, 5); // 修正為 (4, 5)
+        // AI Translated: Corrected to (4, 5)
 
         // Slot 45 (0,5): 返回按鈕
+        // AI Translated: Slot 45 (0,5): Back button
         ItemStack btnBackToMenu = new ItemBuilder(Material.RED_WOOL).name(tl(NamedTextColor.RED, "gui.back")).build();
         mainPane.addItem(new GuiItem(btnBackToMenu, event -> {
             ChooseAlphabetGUI.show(player);
             event.setCancelled(true);
         }), 0, 5); // 修正為 (0, 5)
+        // AI Translated: Corrected to (0, 5)
 
         gui.show(player);
     }

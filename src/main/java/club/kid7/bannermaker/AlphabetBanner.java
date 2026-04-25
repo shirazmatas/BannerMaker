@@ -15,10 +15,13 @@ import java.util.Objects;
 
 /*
  * 無框字母
+ * AI Translated: Borderless letters
  * https://www.youtube.com/watch?v=PncIlxt8TtI
  * 有框字母
+ * AI Translated: Bordered letters
  * https://www.youtube.com/watch?v=jLYvPD_vbZg
  * 數字＆問號＆驚嘆號＆句號
+ * AI Translated: Numbers & question marks & exclamation marks & periods
  * https://www.youtube.com/watch?v=xODU7WWTXYE
  */
 public class AlphabetBanner {
@@ -30,6 +33,7 @@ public class AlphabetBanner {
 
     /*
      * 建構子
+     * AI Translated: Constructor
      */
     public AlphabetBanner(String alphabet, DyeColor baseColor, DyeColor dyeColor, boolean bordered) {
         this.alphabet = ChatColor.stripColor(alphabet.toUpperCase()).substring(0, 1);
@@ -64,6 +68,7 @@ public class AlphabetBanner {
 
     /*
      * 直接建立並取得旗幟ItemStack
+     * AI Translated: Directly create and get the banner ItemStack
      */
     public static ItemStack get(String alphabet) {
         return get(alphabet, DyeColor.WHITE, DyeColor.BLACK, true);
@@ -76,8 +81,10 @@ public class AlphabetBanner {
 
     /**
      * 檢查ItemStack是否為字母旗幟
+     * AI Translated: Check if the ItemStack is an alphabet banner
      *
      * @param itemStack 欲檢查的物品
+     * AI Translated: The item to check
      * @return boolean
      */
     static public boolean isAlphabetBanner(ItemStack itemStack) {
@@ -90,6 +97,7 @@ public class AlphabetBanner {
         ItemMeta itemMeta = Objects.requireNonNull(itemStack.getItemMeta());
 
         //檢查 PersistentData 中的旗幟類型
+        // AI Translated: Check the banner type in PersistentData
         String bannerType = PersistentDataUtil.get(itemMeta, "banner-type");
         if (bannerType == null || !bannerType.equals("alphabet-banner")) {
             return false;
@@ -100,22 +108,29 @@ public class AlphabetBanner {
 
     /*
      * 建立ItemStack
+     * AI Translated: Create ItemStack
      */
     public ItemStack toItemStack() {
         //建立旗幟
+        // AI Translated: Create banner
         ItemStack banner = new ItemStack(DyeColorRegistry.getBannerMaterial(baseColor));
         BannerMeta bannerMeta = (BannerMeta) banner.getItemMeta();
         //設定名稱
+        // AI Translated: Set name
         Objects.requireNonNull(bannerMeta).setDisplayName(BannerMaker.getInstance().getMessageService().formatToString("&a" + alphabet));
         //完成
+        // AI Translated: Complete
         banner.setItemMeta(bannerMeta);
         //在 PersistentData 標記旗幟類型
+        // AI Translated: Mark banner type in PersistentData
         PersistentDataUtil.set(bannerMeta, "banner-type", "alphabet-banner");
 
         boolean invertBanner = false;
         //繪製字母
+        // AI Translated: Draw alphabet
         if (!bordered) {
             //無框
+            // AI Translated: Borderless
             switch (alphabet) {
                 case "A":
                     bannerMeta.addPattern(new Pattern(dyeColor, PatternType.STRIPE_TOP));
@@ -357,6 +372,7 @@ public class AlphabetBanner {
 
         } else {
             //有框
+            // AI Translated: Bordered
             switch (alphabet) {
                 case "A":
                     invertBanner = true;

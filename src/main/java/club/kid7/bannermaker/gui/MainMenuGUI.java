@@ -27,12 +27,14 @@ public class MainMenuGUI {
         MessageService messageService = BannerMaker.getInstance().getMessageService();
         Component titleComponent = tl("gui.title.prefix").append(tl("gui.title.main-menu"));
         // InventoryFramework 標題需要 Legacy String
+        // AI Translated: InventoryFramework title requires Legacy String
         String title = LegacyComponentSerializer.legacySection().serialize(titleComponent);
 
         ChestGui gui = new ChestGui(6, title);
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         // 1. 旗幟列表分頁面 (Paginated Pane)
+        // AI Translated: 1. Banner list paginated pane (Paginated Pane)
         PaginatedPane paginatedPane = new PaginatedPane(0, 0, 9, 5);
         List<ItemStack> banners = BannerMaker.getInstance().getBannerRepository().loadBannerList(player);
         List<GuiItem> bannerItems = new ArrayList<>();
@@ -49,12 +51,15 @@ public class MainMenuGUI {
         gui.addPane(paginatedPane);
 
         // 2. 靜態控制面板 (Static Pane) - 用於放置導航和功能按鈕
+        // AI Translated: 2. Static control panel (Static Pane) - used for placing navigation and function buttons
         StaticPane navigationPane = new StaticPane(0, 5, 9, 1);
 
         // 初始化導航按鈕
+        // AI Translated: Initialize navigation buttons
         updateNavigation(navigationPane, paginatedPane, gui, messageService);
 
         // 製作旗幟按鈕
+        // AI Translated: Craft banner button
         ItemStack btnCreateBanner = new ItemBuilder(Material.LIME_WOOL)
             .name(tl(NamedTextColor.GREEN, "gui.create-banner"))
             .build();
@@ -64,6 +69,7 @@ public class MainMenuGUI {
         }), 4, 0);
 
         // 製作字母按鈕 (若啟用)
+        // AI Translated: Craft alphabet button (if enabled)
         if (BannerMaker.getInstance().isEnableAlphabetAndNumber()) {
             ItemStack btnCreateAlphabet = AlphabetBanner.get("A");
             ItemBuilder btnBuilder = new ItemBuilder(btnCreateAlphabet);
@@ -72,6 +78,7 @@ public class MainMenuGUI {
                 ChooseAlphabetGUI.show(player);
                 event.setCancelled(true);
             }), 6, 0); // Slot 51 是最後一行的第 7 格 (索引 6)
+            // AI Translated: Slot 51 is the 7th cell of the last row (index 6)
         }
 
         gui.addPane(navigationPane);
@@ -80,13 +87,18 @@ public class MainMenuGUI {
 
     private static void updateNavigation(StaticPane navigationPane, PaginatedPane paginatedPane, ChestGui gui, MessageService messageService) {
         // 清除舊的導航按鈕 (僅清除 Slot 45 和 53，即 StaticPane 的 (0,0) 和 (8,0))
+        // AI Translated: Clear old navigation buttons (only clear Slot 45 and 53, which are (0,0) and (8,0) of the StaticPane)
         // 注意: StaticPane (0, 5, 9, 1) 使用本地座標。
+        // AI Translated: Note: StaticPane (0, 5, 9, 1) uses local coordinates.
         // Slot 45 對應本地 (0, 0)。 Slot 53 對應本地 (8, 0)。
+        // AI Translated: Slot 45 corresponds to local (0, 0). Slot 53 corresponds to local (8, 0).
 
         // 上一頁
+        // AI Translated: Previous page
         if (paginatedPane.getPage() > 0) {
             ItemStack prevPage = new ItemBuilder(Material.ARROW)
                 .amount(paginatedPane.getPage()) // 將當前頁碼設為物品數量 (視覺效果)
+                // AI Translated: Set the current page number as the item amount (visual effect)
                 .name(tl(NamedTextColor.GREEN, "gui.prev-page"))
                 .build();
 
@@ -101,9 +113,11 @@ public class MainMenuGUI {
         }
 
         // 下一頁
+        // AI Translated: Next page
         if (paginatedPane.getPage() < paginatedPane.getPages() - 1) {
             ItemStack nextPage = new ItemBuilder(Material.ARROW)
                 .amount(paginatedPane.getPage() + 2) // 將下一頁碼設為物品數量 (視覺效果)
+                // AI Translated: Set the next page number as the item amount (visual effect)
                 .name(tl(NamedTextColor.GREEN, "gui.next-page"))
                 .build();
 

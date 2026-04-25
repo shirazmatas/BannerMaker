@@ -6,6 +6,7 @@ import org.bukkit.inventory.ItemStack;
 public class PlayerData {
     /**
      * 選單狀態
+     * AI Translated: Menu status
      */
 
     private ItemStack viewInfoBanner = null;

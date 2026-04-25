@@ -32,9 +32,12 @@ import java.util.stream.Collectors;
 public class BannerUtil {
     /**
      * 檢查 ItemStack 是否為旗幟
+     * AI Translated: Check if ItemStack is a banner
      *
      * @param itemStack 要檢查的物品
+     * AI Translated: The item to check
      * @return 是否為旗幟
+     * AI Translated: Whether it is a banner
      */
     static public boolean isBanner(ItemStack itemStack) {
         if (itemStack == null) {
@@ -45,9 +48,12 @@ public class BannerUtil {
 
     /**
      * 檢查 Material 是否為旗幟
+     * AI Translated: Check if Material is a banner
      *
      * @param material 要檢查的材質
+     * AI Translated: The material to check
      * @return 是否為旗幟
+     * AI Translated: Whether it is a banner
      */
     static public boolean isBanner(Material material) {
         if (material == null) {
@@ -58,14 +64,18 @@ public class BannerUtil {
 
     /**
      * 判斷是否為紡織機配方
+     * AI Translated: Determine if it is a loom recipe
      *
      * @param patternRecipe 欲檢查配方，由 getPatternRecipe() 產出
+     * AI Translated: The recipe to check, produced by getPatternRecipe()
      * @return 是否為紡織機配方
+     * AI Translated: Whether it is a loom recipe
      */
     static public boolean isLoomRecipe(HashMap<Integer, ItemStack> patternRecipe) {
         for (Map.Entry<Integer, ItemStack> entry : patternRecipe.entrySet()) {
             ItemStack itemStack = entry.getValue();
             // 包含旗幟圖形物品者，直接視為紡織機配方
+            // AI Translated: If it contains a banner pattern item, it is directly regarded as a loom recipe
             if (isBannerPatternItemStack(itemStack)) {
                 return true;
             }
@@ -75,9 +85,12 @@ public class BannerUtil {
 
     /**
      * 判斷是否為旗幟圖形物品
+     * AI Translated: Determine if it is a banner pattern item
      *
      * @param itemStack 欲檢查的物品
+     * AI Translated: The item to check
      * @return 是否為旗幟圖形物品
+     * AI Translated: Whether it is a banner pattern item
      */
     static public boolean isBannerPatternItemStack(ItemStack itemStack) {
         return itemStack.getType().toString().endsWith("_BANNER_PATTERN");
@@ -85,32 +98,43 @@ public class BannerUtil {
 
     /**
      * 取得旗幟材料清單
+     * AI Translated: Get the banner material list
      *
      * @param banner 欲取得材料清單之旗幟
+     * AI Translated: The banner to get the material list for
      * @return List<ItemStack>
      */
     static public List<ItemStack> getMaterials(ItemStack banner) {
         List<ItemStack> materialList = new ArrayList<>();
         //只檢查旗幟
+        // AI Translated: Only check banners
         if (!isBanner(banner)) {
             return materialList;
         }
         //基本材料
+        // AI Translated: Basic materials
         //木棒
+        // AI Translated: Stick
         ItemStack stick = new ItemStack(Material.STICK, 1);
         materialList.add(stick);
         //羊毛
+        // AI Translated: Wool
         //顏色
+        // AI Translated: Color
         DyeColor baseColor = DyeColorRegistry.getDyeColor(banner.getType());
         //羊毛
+        // AI Translated: Wool
         ItemStack wool = new ItemStack(DyeColorRegistry.getWoolMaterial(baseColor), 6);
         materialList.add(wool);
         //Pattern材料
+        // AI Translated: Pattern materials
         Inventory materialInventory = Bukkit.createInventory(null, 54);
         BannerMeta bm = (BannerMeta) Objects.requireNonNull(banner.getItemMeta());
         //逐Pattern計算
+        // AI Translated: Calculate Pattern by Pattern
         for (Pattern pattern : bm.getPatterns()) {
             //所需染料
+            // AI Translated: Required dye
             DyeColor dyeColor = pattern.getColor();
             PatternType patternType = pattern.getPattern();
             if (patternType.equals(PatternType.SQUARE_BOTTOM_LEFT)
@@ -182,25 +206,33 @@ public class BannerUtil {
                     materialInventory.addItem(DyeColorRegistry.getDyeItemStack(dyeColor, 1));
                 }
             } else if (patternType.equals(PatternType.PIGLIN)) {// 圖形樣式材料不會被消耗，最多只會需要一個
+                // AI Translated: Pattern materials are not consumed, at most one will be needed
                 // TODO: 應該移到後面整個一起處理
+                // AI Translated: TODO: Should be moved to the back to be processed together
                 if (!materialInventory.contains(Material.PIGLIN_BANNER_PATTERN)) {
                     materialInventory.addItem(new ItemStack(Material.PIGLIN_BANNER_PATTERN));
                 }
                 materialInventory.addItem(DyeColorRegistry.getDyeItemStack(dyeColor, 1));
             } else if (patternType.equals(PatternType.GLOBE)) {// 圖形樣式材料不會被消耗，最多只會需要一個
+                // AI Translated: Pattern materials are not consumed, at most one will be needed
                 // TODO: 應該移到後面整個一起處理
+                // AI Translated: TODO: Should be moved to the back to be processed together
                 if (!materialInventory.contains(Material.GLOBE_BANNER_PATTERN)) {
                     materialInventory.addItem(new ItemStack(Material.GLOBE_BANNER_PATTERN));
                 }
                 materialInventory.addItem(DyeColorRegistry.getDyeItemStack(dyeColor, 1));
             } else if (patternType.equals(PatternType.FLOW)) {// 圖形樣式材料不會被消耗，最多只會需要一個
+                // AI Translated: Pattern materials are not consumed, at most one will be needed
                 // TODO: 應該移到後面整個一起處理
+                // AI Translated: TODO: Should be moved to the back to be processed together
                 if (!materialInventory.contains(Material.FLOW_BANNER_PATTERN)) {
                     materialInventory.addItem(new ItemStack(Material.FLOW_BANNER_PATTERN));
                 }
                 materialInventory.addItem(DyeColorRegistry.getDyeItemStack(dyeColor, 1));
             } else if (patternType.equals(PatternType.GUSTER)) {// 圖形樣式材料不會被消耗，最多只會需要一個
+                // AI Translated: Pattern materials are not consumed, at most one will be needed
                 // TODO: 應該移到後面整個一起處理
+                // AI Translated: TODO: Should be moved to the back to be processed together
                 if (!materialInventory.contains(Material.GUSTER_BANNER_PATTERN)) {
                     materialInventory.addItem(new ItemStack(Material.GUSTER_BANNER_PATTERN));
                 }
@@ -208,6 +240,7 @@ public class BannerUtil {
             }
         }
         //加到暫存清單
+        // AI Translated: Add to temporary list
         List<ItemStack> patternMaterials = new ArrayList<>();
         for (ItemStack item : materialInventory.getContents()) {
             if (item != null && !item.getType().isAir()) {
@@ -215,8 +248,10 @@ public class BannerUtil {
             }
         }
         //重新排序
+        // AI Translated: Re-sort
         InventoryUtil.sort(patternMaterials);
         //將材料加到清單中
+        // AI Translated: Add materials to the list
         materialList.addAll(patternMaterials);
 
         return materialList;
@@ -224,22 +259,30 @@ public class BannerUtil {
 
     /**
      * 檢查是否擁有足夠材料
+     * AI Translated: Check if there are enough materials
      *
      * @param inventory 指定物品欄
+     * AI Translated: Specified inventory
      * @param banner    旗幟
+     * AI Translated: Banner
      * @return 是否擁有足夠材料
+     * AI Translated: Whether there are enough materials
      */
     static public boolean hasEnoughMaterials(Inventory inventory, ItemStack banner) {
         //只檢查旗幟
+        // AI Translated: Only check banners
         if (!isBanner(banner)) {
             return false;
         }
         //材料清單
+        // AI Translated: Material list
         List<ItemStack> materials = getMaterials(banner);
         for (ItemStack material : materials) {
             //任何一項不足
+            // AI Translated: Any item insufficient
             if (!inventory.containsAtLeast(material, material.getAmount())) {
                 //直接回傳false
+                // AI Translated: Directly return false
                 return false;
             }
         }
@@ -248,12 +291,16 @@ public class BannerUtil {
 
     /**
      * 是否可以在生存模式合成（不超過6個pattern）
+     * AI Translated: Whether it can be crafted in survival mode (no more than 6 patterns)
      *
      * @param banner 旗幟
+     * AI Translated: Banner
      * @return 是否可以合成
+     * AI Translated: Whether it can be crafted
      */
     static public boolean isCraftableInSurvival(ItemStack banner) {
         //只檢查旗幟
+        // AI Translated: Only check banners
         if (!isBanner(banner)) {
             return false;
         }
@@ -263,17 +310,23 @@ public class BannerUtil {
 
     /**
      * 是否可以合成
+     * AI Translated: Whether it can be crafted
      *
      * @param player 玩家
+     * AI Translated: Player
      * @param banner 旗幟
+     * AI Translated: Banner
      * @return 是否可以合成
+     * AI Translated: Whether it can be crafted
      */
     static public boolean isCraftable(Player player, ItemStack banner) {
         //只檢查旗幟
+        // AI Translated: Only check banners
         if (!isBanner(banner)) {
             return false;
         }
         // 若啟用複雜合成功能，則額外檢查玩家是否擁有對應權限
+        // AI Translated: If complex crafting is enabled, additionally check if the player has the corresponding permission
         if (BannerMaker.getInstance().isEnableComplexBannerCraft()) {
             if (player.hasPermission("BannerMaker.getBanner.complex-craft")) {
                 return true;
@@ -284,12 +337,15 @@ public class BannerUtil {
 
     /**
      * 取得旗幟在玩家存檔中的Key
+     * AI Translated: Get the banner's key in the player's archive
      *
      * @param banner 欲檢查之旗幟
+     * AI Translated: The banner to check
      * @return String
      */
     static public String getKey(ItemStack banner) {
         //只處理旗幟
+        // AI Translated: Only handle banners
         if (!isBanner(banner)) {
             return null;
         }
@@ -299,25 +355,31 @@ public class BannerUtil {
 
     /**
      * 取得旗幟名稱，若無名稱則嘗試取得KEY
+     * AI Translated: Get the banner name, or try to get the KEY if there is no name
      *
      * @param banner 欲檢查之旗幟
+     * AI Translated: The banner to check
      * @return String
      */
     static public String getName(ItemStack banner) {
         //只處理旗幟
+        // AI Translated: Only handle banners
         if (!isBanner(banner)) {
             return null;
         }
         //先試著取得自訂名稱
+        // AI Translated: First try to get the custom name
         if (banner.hasItemMeta() && Objects.requireNonNull(banner.getItemMeta()).hasDisplayName()) {
             return banner.getItemMeta().getDisplayName();
         }
         //嘗試取得key
+        // AI Translated: Try to get the key
         String key = BannerUtil.getKey(banner);
         if (key != null) {
             return key;
         }
         //若都沒有，回傳空字串
+        // AI Translated: If neither, return an empty string
         return "";
     }
 
@@ -331,47 +393,61 @@ public class BannerUtil {
     static public HashMap<Integer, ItemStack> getPatternRecipe(final ItemStack banner, int step) {
         HashMap<Integer, ItemStack> recipe = Maps.newHashMap();
         //填滿空氣
+        // AI Translated: Fill with air
         for (int i = 0; i < 10; i++) {
             recipe.put(i, new ItemStack(Material.AIR));
         }
         //只處理旗幟
+        // AI Translated: Only handle banners
         if (!isBanner(banner)) {
             return recipe;
         }
         BannerMeta bm = (BannerMeta) Objects.requireNonNull(banner.getItemMeta());
         int totalStep = bm.numberOfPatterns() + 1;
         //顏色
+        // AI Translated: Color
         DyeColor baseColor = DyeColorRegistry.getDyeColor(banner.getType());
         if (step == 1) {
             //第一步，旗幟合成
+            // AI Translated: First step, banner crafting
             //羊毛
+            // AI Translated: Wool
             ItemStack wool = new ItemStack(DyeColorRegistry.getWoolMaterial(baseColor));
             for (int i = 0; i < 6; i++) {
                 recipe.put(i, wool.clone());
             }
             //木棒
+            // AI Translated: Stick
             ItemStack stick = new ItemStack(Material.STICK);
             recipe.put(7, stick);
         } else if (step <= totalStep) {
             //新增Pattern
+            // AI Translated: Add Pattern
             //當前banner
+            // AI Translated: Current banner
             ItemStack prevBanner = new ItemStack(DyeColorRegistry.getBannerMaterial(baseColor));
             BannerMeta pbm = (BannerMeta) Objects.requireNonNull(prevBanner.getItemMeta());
             //新增至目前的Pattern
+            // AI Translated: Add to current Patterns
             for (int i = 0; i < step - 2; i++) {
                 pbm.addPattern(bm.getPattern(i));
             }
             prevBanner.setItemMeta(pbm);
             //當前Pattern
+            // AI Translated: Current Pattern
             Pattern pattern = bm.getPattern(step - 2);
             //所需染料
+            // AI Translated: Required dye
             DyeColor dyeColor = pattern.getColor();
             ItemStack dyeItem = DyeColorRegistry.getDyeItemStack(dyeColor, 1);
             //旗幟位置
+            // AI Translated: Banner position
             int bannerPosition = 4;
             //染料位置
+            // AI Translated: Dye position
             List<Integer> dyePosition = Collections.emptyList();
             //根據Pattern決定位置
+            // AI Translated: Determine position based on Pattern
             PatternType patternType = pattern.getPattern();
             if (patternType.equals(PatternType.SQUARE_BOTTOM_LEFT)) {
                 dyePosition = Collections.singletonList(6);
@@ -496,16 +572,20 @@ public class BannerUtil {
                 dyePosition = Collections.singletonList(5);
             }
             //放置旗幟與染料
+            // AI Translated: Place banner and dye
             recipe.put(bannerPosition, prevBanner);
             for (int i : dyePosition) {
                 recipe.put(i, dyeItem.clone());
             }
         }
         //合成結果
+        // AI Translated: Crafting result
         //當前banner
+        // AI Translated: Current banner
         ItemStack currentBanner = new ItemStack(DyeColorRegistry.getBannerMaterial(baseColor));
         BannerMeta cbm = (BannerMeta) Objects.requireNonNull(currentBanner.getItemMeta());
         //新增至目前的Pattern
+        // AI Translated: Add to current Patterns
         for (int i = 0; i < step - 1; i++) {
             cbm.addPattern(bm.getPattern(i));
         }
@@ -517,6 +597,7 @@ public class BannerUtil {
 
     static public String serialize(ItemStack banner) {
         //只檢查旗幟
+        // AI Translated: Only check banners
         if (!isBanner(banner)) {
             return null;
         }

@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 /**
  * 現代化的物品建構器，整合 XSeries 與 Adventure Component。
+ * AI Translated: Modernized item builder, integrating XSeries and Adventure Component.
  */
 public class ItemBuilder {
 
@@ -41,10 +42,15 @@ public class ItemBuilder {
     public ItemBuilder name(Component name) {
         if (itemMeta != null) {
             // 目前 Spigot API (非 Paper) 的 ItemMeta 尚未全面支援 Component，
+            // AI Translated: Currently, ItemMeta of Spigot API (non-Paper) does not fully support Component,
             // 為了最大相容性，我們先序列化為 Legacy String。
+            // AI Translated: for maximum compatibility, we first serialize to Legacy String.
             // 未來若全面轉向 Paper，可直接使用 name(Component) (如果有該 API)。
+            // AI Translated: In the future, if we switch fully to Paper, we can directly use name(Component) (if that API exists).
             // 註：Paper 的 ItemMeta 支援 displayName(Component)。
+            // AI Translated: Note: Paper's ItemMeta supports displayName(Component).
             // 這裡我們暫時用 Legacy 轉換以確保安全。
+            // AI Translated: Here we temporarily use Legacy conversion to ensure safety.
             String legacyName = LegacyComponentSerializer.legacySection().serialize(name);
             itemMeta.setDisplayName(legacyName);
         }
@@ -127,10 +133,12 @@ public class ItemBuilder {
     public ItemBuilder customModelData(int data) {
         if (itemMeta != null) {
             // 需要較新版本 Bukkit 支援
+            // AI Translated: Requires a newer version of Bukkit support
             try {
                 itemMeta.setCustomModelData(data);
             } catch (NoSuchMethodError ignored) {
                 // 舊版本不支援 CustomModelData
+                // AI Translated: Older versions do not support CustomModelData
             }
         }
         return this;
