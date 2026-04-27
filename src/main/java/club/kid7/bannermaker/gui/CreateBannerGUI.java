@@ -10,6 +10,10 @@ import club.kid7.bannermaker.util.ItemBuilder;
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
+import de.themoep.inventorygui.DynamicGuiElement;
+import de.themoep.inventorygui.GuiElementGroup;
+import de.themoep.inventorygui.InventoryGui;
+import de.themoep.inventorygui.StaticGuiElement;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -34,6 +38,16 @@ public class CreateBannerGUI {
         Component titleComponent = tl("gui.title.prefix").append(tl("gui.title.create-banner"));
         String title = LegacyComponentSerializer.legacySection().serialize(titleComponent);
         ChestGui gui = new ChestGui(6, title);
+        String[] guiSetup = {
+            "xdddddddd",
+            " dddddddd",
+            "sbbbbbbbb",
+            " bbbbbbbb",
+            " bbbbbbbb",
+            "p d u m c"
+        };
+        InventoryGui gui2 = new InventoryGui(BannerMaker.getInstance(), player, title, guiSetup);
+
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         StaticPane mainPane = new StaticPane(0, 0, 9, 6);
@@ -47,6 +61,10 @@ public class CreateBannerGUI {
             event.setCancelled(true);
         }), 0, 5); // 修正為 (0, 5)
         // AI Translated: Corrected to (0, 5)
+        gui2.addElement('p', btnBackToMenu, click -> {
+            MainMenuGUI.show(player);
+            return true;
+        });
 
         // 取得當前正在編輯的旗幟
         // AI Translated: Get the banner currently being edited
@@ -55,6 +73,7 @@ public class CreateBannerGUI {
         if (currentBanner == null) {
             // 初次開啟，選擇底色 (使用與顏色選擇相同的佈局邏輯)
             // AI Translated: First time opening, choose base color (using the same layout logic as color selection)
+            GuiElementGroup colorGroup = new GuiElementGroup('d');
             for (int i = 0; i < 16; i++) {
                 final int colorIndex = i;
                 ItemStack banner = new ItemBuilder(DyeColorRegistry.getBannerMaterial(colorIndex)).build();
@@ -67,8 +86,15 @@ public class CreateBannerGUI {
                     // AI Translated: Reopen to enter edit mode
                     event.setCancelled(true);
                 }), slot % 9, slot / 9);
+                colorGroup.addElement(new StaticGuiElement('e', banner, click -> {
+                    playerData.setCurrentEditBanner(banner);
+                    CreateBannerGUI.show(player);
+                    return true;
+                }));
             }
+            gui2.addElement(colorGroup);
             gui.show(player);
+            gui2.show(player);
             return;
         }
 
@@ -78,7 +104,7 @@ public class CreateBannerGUI {
         // Slot 0 (0,0): 當前編輯中的旗幟
         // AI Translated: Slot 0 (0,0): Current banner being edited
         mainPane.addItem(new GuiItem(currentBanner), 0, 0);
-
+        gui2.addElement(new DynamicGuiElement(currentBanner));
         // Slot 9 (0,1): 圖案過多警告
         // AI Translated: Slot 9 (0,1): Too many patterns warning
         if (currentBanner.hasItemMeta() && ((BannerMeta) Objects.requireNonNull(currentBanner.getItemMeta())).numberOfPatterns() > 6) {

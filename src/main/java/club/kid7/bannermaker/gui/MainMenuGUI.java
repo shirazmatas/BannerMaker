@@ -9,6 +9,10 @@ import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
+import de.themoep.inventorygui.GuiElementGroup;
+import de.themoep.inventorygui.GuiPageElement;
+import de.themoep.inventorygui.InventoryGui;
+import de.themoep.inventorygui.StaticGuiElement;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -29,7 +33,15 @@ public class MainMenuGUI {
         // InventoryFramework 標題需要 Legacy String
         // AI Translated: InventoryFramework title requires Legacy String
         String title = LegacyComponentSerializer.legacySection().serialize(titleComponent);
-
+        String[] guiSetup = {
+            "bbbbbbbbb",
+            "bbbbbbbbb",
+            "bbbbbbbbb",
+            "bbbbbbbbb",
+            "bbbbbbbbb",
+            "p   c a n"
+        };
+        InventoryGui gui2 = new InventoryGui(BannerMaker.getInstance(), player, title, guiSetup);
         ChestGui gui = new ChestGui(6, title);
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
@@ -37,26 +49,35 @@ public class MainMenuGUI {
         // AI Translated: 1. Banner list paginated pane (Paginated Pane)
         PaginatedPane paginatedPane = new PaginatedPane(0, 0, 9, 5);
         List<ItemStack> banners = BannerMaker.getInstance().getBannerRepository().loadBannerList(player);
-        List<GuiItem> bannerItems = new ArrayList<>();
+        List<GuiItem> bannerItems = new ArrayList<>(); // TODO: Change
+        GuiElementGroup group = new GuiElementGroup('b');
 
         for (ItemStack banner : banners) {
-            GuiItem item = new GuiItem(banner, event -> {
+            GuiItem item = new GuiItem(banner, event -> {// TODO: REMOVE
                 InventoryMenuUtil.openBannerInfo(player, banner);
                 event.setCancelled(true);
             });
             bannerItems.add(item);
+            group.addElement(new StaticGuiElement('e', banner, event -> {
+                InventoryMenuUtil.openBannerInfo(player, banner);
+                return true;
+            }));
         }
 
-        paginatedPane.populateWithGuiItems(bannerItems);
-        gui.addPane(paginatedPane);
+        paginatedPane.populateWithGuiItems(bannerItems); // TODO: REMOVE
+        gui.addPane(paginatedPane); // TODO: REMOVE
+        gui2.addElements(group);
 
         // 2. 靜態控制面板 (Static Pane) - 用於放置導航和功能按鈕
         // AI Translated: 2. Static control panel (Static Pane) - used for placing navigation and function buttons
         StaticPane navigationPane = new StaticPane(0, 5, 9, 1);
-
+        gui2.addElement(new GuiPageElement('p', new ItemStack(Material.ARROW), GuiPageElement.PageAction.PREVIOUS,
+                "Go to previous page (%prevpage%)"));
+        gui2.addElement(new GuiPageElement('n', new ItemStack(Material.ARROW), GuiPageElement.PageAction.NEXT,
+            "Go to next page (%nextpage%)"));
         // 初始化導航按鈕
         // AI Translated: Initialize navigation buttons
-        updateNavigation(navigationPane, paginatedPane, gui, messageService);
+        updateNavigation(navigationPane, paginatedPane, gui, messageService); // TODO: REMOVE
 
         // 製作旗幟按鈕
         // AI Translated: Craft banner button
@@ -67,6 +88,10 @@ public class MainMenuGUI {
             CreateBannerGUI.show(player);
             event.setCancelled(true);
         }), 4, 0);
+        gui2.addElement(new StaticGuiElement('c', btnCreateBanner, click -> {
+            CreateBannerGUI.show(player); // TODO: Change?
+            return true;
+        }));
 
         // 製作字母按鈕 (若啟用)
         // AI Translated: Craft alphabet button (if enabled)
@@ -78,11 +103,17 @@ public class MainMenuGUI {
                 ChooseAlphabetGUI.show(player);
                 event.setCancelled(true);
             }), 6, 0); // Slot 51 是最後一行的第 7 格 (索引 6)
+            gui2.addElement(new StaticGuiElement('a', btnBuilder.build(), click ->{
+                ChooseAlphabetGUI.show(player);
+                return true;
+            }));
             // AI Translated: Slot 51 is the 7th cell of the last row (index 6)
         }
 
         gui.addPane(navigationPane);
         gui.show(player);
+        //InventoryGui gui2 = InventoryGui.get(InventoryHolder holder);
+        gui2.show(player);
     }
 
     private static void updateNavigation(StaticPane navigationPane, PaginatedPane paginatedPane, ChestGui gui, MessageService messageService) {

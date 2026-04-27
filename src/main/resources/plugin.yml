@@ -2,6 +2,7 @@ name: ${project.artifactId}
 main: club.kid7.bannermaker.BannerMaker
 version: ${project.version}
 author: KID
+folia-supported: true
 softdepend: [ Vault ]
 api-version: 1.21.4
 commands:

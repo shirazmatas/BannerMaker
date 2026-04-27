@@ -1,106 +1,101 @@
 # AI Agent Context & Guidelines (AGENTS.md)
 
-## 📍 專案概觀 (Project Overview)
+## 📍 Project Overview
 
-BannerMaker 是一個 Spigot/Paper Minecraft 插件，允許玩家透過 GUI 製作與管理旗幟。
-本專案已完成現代化遷移，並持續優化核心組件，目標是維護一個高效能、模組化且易於擴展的程式碼庫。
+BannerMaker is a Spigot/Paper Minecraft plugin that allows players to create and manage banners through a GUI.
+This project has completed modernization migration and continues to optimize core components, aiming to maintain a high-performance, modular, and easily extensible codebase.
 
-## 🛠 技術堆疊 (Tech Stack)
+## 🛠 Tech Stack
 
 - **Language**: Java 21
 - **Platform**: Spigot / Paper 1.21.4+
-- **Build System**: Maven (支援 `minimizeJar` 優化)
+- **Build System**: Maven (Supports `minimizeJar` optimization)
 - **Local Env**: `& "C:\Users\jyhsu\AppData\Local\Programs\IntelliJ IDEA Ultimate\plugins\maven\lib\maven3\bin\mvn.cmd"`
 - **Key Libraries**:
-    - **Adventure**: `4.17.0` (Text) / `4.3.4` (Platform Bukkit) - 文字與訊息處理核心。
-    - **ACF (Paper)**: `0.5.1-SNAPSHOT` - 指令管理系統。
-    - **InventoryFramework**: `0.10.14` - GUI 介面框架。
-    - **XSeries**: `11.3.0` - 跨版本材質與聲音相容性。
-    - **MockBukkit**: `4.41.1` - 單元測試框架 (針對 1.21.4)。
+    - **Adventure**: `4.17.0` (Text) / `4.3.4` (Platform Bukkit) - Core for text and message processing.
+    - **ACF (Paper)**: `0.5.1-SNAPSHOT` - Command management system.
+    - **InventoryFramework**: `0.10.14` - GUI interface framework.
+    - **XSeries**: `11.3.0` - Cross-version material and sound compatibility.
+    - **MockBukkit**: `4.41.1` - Unit testing framework (Targeting 1.21.4).
 
-## 📐 架構規範 (Architecture & Patterns)
+## 📐 Architecture & Patterns
 
-### 1. 設定與資料 (Configuration)
+### 1. Configuration and Data
 
-- **必須** 使用 `club.kid7.bannermaker.configuration.ConfigManager` 進行所有 YAML 檔案存取。
-- **禁止** 直接實例化 `YamlConfiguration` 或使用 Bukkit API 的預設 config 方法 (除非在 Manager 內部)。
-- **單元測試**: 測試結束時 (`tearDown`) **必須** 呼叫 `ConfigManager.reset()` 以清除靜態狀態，防止測試間汙染。
-- `Language.java` 中的翻譯鍵值若在執行時缺漏，將不再觸發同步磁碟寫入，以避免性能瓶頸。
+- **MUST** use `club.kid7.bannermaker.configuration.ConfigManager` for all YAML file access.
+- **FORBIDDEN** to directly instantiate `YamlConfiguration` or use Bukkit API's default config methods (unless inside a Manager).
+- **Unit Testing**: Upon test completion (`tearDown`), `ConfigManager.reset()` **MUST** be called to clear static states and prevent cross-test contamination.
+- Translation keys in `Language.java` will no longer trigger synchronous disk writes if missing at runtime to avoid performance bottlenecks.
 
-### 2. 訊息處理 (Messaging)
+### 2. Messaging
 
-- **必須** 使用 `club.kid7.bannermaker.service.MessageService` 發送訊息。
-- **禁止** 使用 `player.sendMessage()` 或 `Bukkit.broadcastMessage()`。
-- `club.kid7.bannermaker.configuration.Language.tl()` 方法現在返回 Adventure `Component`。
-- **顏色代碼機制**:
-    - `Language.tl()` 智能支援 **MiniMessage** (如 `<red>`, `<gradient>`) 與 **Legacy** (如 `&c`) 格式。
-    - 若字串包含 MiniMessage 標籤 (`<` 和 `>`)，優先使用 MiniMessage 解析；否則回退至 Legacy 解析。
-- **參數替換**:
-    - **舊方式 (Legacy)**: `tl("key", arg1)` 使用 `{0}` 佔位符（不推薦，有注入風險）。
-    - **新方式 (Recommended)**: `tl("key", TagUtil.tag("arg", value))` 使用 `<arg>` 佔位符。配合
-      `club.kid7.bannermaker.util.TagUtil` 進行安全轉義。
-- 推薦使用 `Language.tl(NamedTextColor color, String path, Object... args)` 重載方法來簡化帶顏色的翻譯 Component 的創建。
+- **MUST** use `club.kid7.bannermaker.service.MessageService` to send messages.
+- **FORBIDDEN** to use `player.sendMessage()` or `Bukkit.broadcastMessage()`.
+- The `club.kid7.bannermaker.configuration.Language.tl()` method now returns an Adventure `Component`.
+- **Color Code Mechanism**:
+    - `Language.tl()` intelligently supports both **MiniMessage** (e.g., `<red>`, `<gradient>`) and **Legacy** (e.g., `&c`) formats.
+    - If a string contains MiniMessage tags (`<` and `>`), MiniMessage parsing is prioritized; otherwise, it falls back to Legacy parsing.
+- **Parameter Substitution**:
+    - **Old Way (Legacy)**: `tl("key", arg1)` uses `{0}` placeholders (Not recommended, risk of injection).
+    - **New Way (Recommended)**: `tl("key", TagUtil.tag("arg", value))` uses `<arg>` placeholders. Use in conjunction with `club.kid7.bannermaker.util.TagUtil` for safe escaping.
+- It is recommended to use the `Language.tl(NamedTextColor color, String path, Object... args)` overloaded method to simplify the creation of colored translation Components.
 
-### 3. ACF 整合 (Command Framework)
+### 3. ACF Integration (Command Framework)
 
-- **自動 Help 系統**: 使用 ACF 內建的 `@HelpCommand` 自動生成指令幫助訊息 (`/bm help`)。
-- **權限過濾**: Help 訊息會根據玩家擁有的權限自動過濾顯示的指令。
-- **語言同步**: ACF 的系統訊息語言（如「未知指令」）會自動根據 `config.yml` 中的 `Language` 設定（`zh_TW`, `en`, `auto`
-  ）進行同步。若設為 `auto`，則使用伺服器系統語言。
+- **Automatic Help System**: Use ACF's built-in `@HelpCommand` to automatically generate command help messages (`/bm help`).
+- **Permission Filtering**: Help messages are automatically filtered based on the permissions the player possesses.
+- **Language Synchronization**: ACF's system messages (e.g., "Unknown command") will automatically synchronize with the `Language` setting (`zh_TW`, `en`, `auto`) in `config.yml`. If set to `auto`, the server system language is used.
 
-### 4. GUI 開發
+### 4. GUI Development
 
-- **必須** 使用 `InventoryFramework` 實作所有選單。
-- GUI 類別位於 `club.kid7.bannermaker.gui` 套件下，取代舊有的 `CustomGUI` 系統。
-- GUI 標題若必須為 `String`，請使用 `LegacyComponentSerializer.legacySection().serialize(component)` 進行轉換。
+- **MUST** use `InventoryFramework` to implement all menus.
+- GUI classes are located under the `club.kid7.bannermaker.gui` package, replacing the old `CustomGUI` system.
+- If a GUI title must be a `String`, use `LegacyComponentSerializer.legacySection().serialize(component)` for conversion.
 
-### 5. 物品建構 (Item Building)
+### 5. Item Building
 
-- **必須** 使用 `club.kid7.bannermaker.util.ItemBuilder` 建立 `ItemStack`。
-- `ItemBuilder` 現在支援 `name(Component)`, `lore(Component...)` 和 `addLore(Component...)`。
-- **禁止** 直接使用 `new ItemStack()`，以確保 XMaterial 的跨版本支援。
+- **MUST** use `club.kid7.bannermaker.util.ItemBuilder` to create `ItemStack` objects.
+- `ItemBuilder` now supports `name(Component)`, `lore(Component...)`, and `addLore(Component...)`.
+- **FORBIDDEN** to directly use `new ItemStack()`, ensuring cross-version support via XMaterial.
 
-### 6. 工具類 (Utilities)
+### 6. Utilities
 
-- `club.kid7.bannermaker.util.BannerUtil.isBanner()` 方法已重構，使用 `XTag.BANNERS` 判斷 `ItemStack` 或 `Material`
-  是否為旗幟，提供更準確和優雅的判斷方式。
+- The `club.kid7.bannermaker.util.BannerUtil.isBanner()` method has been refactored to use `XTag.BANNERS` to determine if an `ItemStack` or `Material` is a banner, providing a more accurate and elegant way of judgment.
 
-## 📝 開發慣例 (Conventions)
+## 📝 Conventions
 
-- **主要語言**: 專案文件與代碼註解使用 **正體中文 (Traditional Chinese)**。
-- **測試策略**:
-    - 核心邏輯與工具類必須包含單元測試 (`src/test/java`)。
-    - 必須使用 `MockBukkit` 模擬伺服器環境。
-    - 測試環境判斷：使用 `isUnitTest()` 方法（檢查 MockBukkit 類別）來避免在測試中初始化 bStats Metrics 或其他不必要的外部連線。
-  - 針對重載方法中對 `null` 參數的測試，請使用顯式轉型 (例如 `(ItemStack) null`) 來避免編譯歧義。
+- **Primary Language**: Project documentation and code comments use **Traditional Chinese (正體中文)**.
+- **Testing Strategy**:
+    - Core logic and utility classes must include unit tests (`src/test/java`).
+    - `MockBukkit` must be used to simulate the server environment.
+    - Test Environment Detection: Use the `isUnitTest()` method (which checks for the MockBukkit class) to avoid initializing bStats Metrics or other unnecessary external connections during tests.
+    - For testing overloaded methods with `null` parameters, please use explicit casting (e.g., `(ItemStack) null`) to avoid compilation ambiguity.
 
-## 🗺️ 專案地圖 (Codebase Map)
+## 🗺️ Codebase Map
 
 - `src/main/java/club/kid7/bannermaker/`
-    - `BannerMaker.java`: 插件進入點 (Entry Point)，負責初始化 Services 與 Managers。
+    - `BannerMaker.java`: Plugin entry point, responsible for initializing Services and Managers.
     - `configuration/`:
-        - `ConfigManager.java`: 核心設定管理。
-      - `Language.java`: 多語言系統 (已優化，支援 MiniMessage/Legacy 混用)。
-    - `gui/`: 使用者介面實作 (`MainMenuGUI` 等)。
-    - `command/acf/`: ACF 指令處理 (`BannerMakerCommand`)。
-    - `service/`: 核心服務 (`MessageService`)。
-  - `util/`: 通用工具 (`BannerUtil`, `ItemBuilder`, `TagUtil` 等)。
+        - `ConfigManager.java`: Core configuration management.
+        - `Language.java`: Multi-language system (Optimized, supports MiniMessage/Legacy mixing).
+    - `gui/`: User interface implementation (`MainMenuGUI`, etc.).
+    - `command/acf/`: ACF command handling (`BannerMakerCommand`).
+    - `service/`: Core services (`MessageService`).
+    - `util/`: Common utilities (`BannerUtil`, `ItemBuilder`, `TagUtil`, etc.).
 
-## ✅ 當前狀態 (Current State)
+## ✅ Current State
 
-- **已完成遷移**:
-    - 移除 `PluginUtilities` 依賴，實現完全本地化。
-    - 導入 Adventure, ACF, InventoryFramework, XSeries。
-    - 建立 `ConfigManager` 取代舊系統。
-    - 建立 `ItemBuilder` 取代舊 `KItemStack`。
-    - 重建單元測試環境，並解決 bStats 與 ConfigManager 的測試相容性問題。
-  - 語言系統已現代化：`Language.tl()` 支援 MiniMessage 與 Legacy 雙重解析，並支援 TagResolver 參數。
-  - ACF 整合：已啟用自動 Help 系統，並實現語言設定與 `config.yml` 同步。
-  - `ItemBuilder` 增強了對 `Component` 類型 Lore 的支援。
-  - `BannerUtil.isBanner` 方法已優化為使用 `XTag`，提高了判斷的準確性和優雅性。
-- **已知問題/待辦**:
-    - `Language.java` 仍是靜態單例模式，這在單元測試中仍有潛在的狀態污染風險（儘管 `ConfigManager.reset()`
-      已經處理了大部分）。未來可能考慮將其重構為依賴注入的形式。
-  - **參數佔位符遷移**: 逐步將現有的 `{0}` 格式參數替換遷移至新的 `TagUtil` 與 `TagResolver` 機制，以提升安全性和可讀性。
-  - **ACF 指令描述多語系**: 實作機制將 `language/*.yml` 中的指令描述（如 `command.description.*`）注入到 ACF 的 Locales
-    系統，使 `/bm help` 中的描述能支援多語系顯示。
+- **Migration Completed**:
+    - Removed `PluginUtilities` dependency, achieving full localization.
+    - Imported Adventure, ACF, InventoryFramework, XSeries.
+    - Created `ConfigManager` to replace the old system.
+    - Created `ItemBuilder` to replace the old `KItemStack`.
+    - Rebuilt the unit testing environment and resolved testing compatibility issues between bStats and ConfigManager.
+    - The language system is modernized: `Language.tl()` supports dual parsing of MiniMessage and Legacy, and supports TagResolver parameters.
+    - ACF Integration: Enabled automatic Help system and implemented language setting synchronization with `config.yml`.
+    - `ItemBuilder` enhanced support for `Component` type Lore.
+    - `BannerUtil.isBanner` method optimized to use `XTag`, improving accuracy and elegance.
+- **Known Issues/TODO**:
+    - `Language.java` is still in a static singleton pattern, which poses potential risks of state pollution in unit tests (though `ConfigManager.reset()` handles most of it). Future refactoring into dependency injection might be considered.
+    - **Parameter Placeholder Migration**: Gradually migrate existing `{0}` format parameter replacements to the new `TagUtil` and `TagResolver` mechanism to enhance safety and readability.
+    - **ACF Command Description Localization**: Implement a mechanism to inject command descriptions (e.g., `command.description.*`) from `language/*.yml` into ACF's Locales system, allowing `/bm help` descriptions to support multi-language display.
