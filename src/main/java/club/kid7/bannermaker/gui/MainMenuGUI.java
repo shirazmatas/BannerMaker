@@ -5,10 +5,6 @@ import club.kid7.bannermaker.BannerMaker;
 import club.kid7.bannermaker.service.MessageService;
 import club.kid7.bannermaker.util.InventoryMenuUtil;
 import club.kid7.bannermaker.util.ItemBuilder;
-import com.github.stefvanschie.inventoryframework.gui.GuiItem;
-import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
-import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
-import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import de.themoep.inventorygui.GuiElementGroup;
 import de.themoep.inventorygui.GuiPageElement;
 import de.themoep.inventorygui.InventoryGui;
@@ -19,76 +15,56 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import static club.kid7.bannermaker.configuration.Language.tl;
 
 public class MainMenuGUI {
+    private final static String[] GUI_MENU = {
+        "bbbbbbbbb",
+        "bbbbbbbbb",
+        "bbbbbbbbb",
+        "bbbbbbbbb",
+        "bbbbbbbbb",
+        "p   c a n"
+    };
 
     public static void show(Player player) {
-        MessageService messageService = BannerMaker.getInstance().getMessageService();
         Component titleComponent = tl("gui.title.prefix").append(tl("gui.title.main-menu"));
         // InventoryFramework 標題需要 Legacy String
         // AI Translated: InventoryFramework title requires Legacy String
         String title = LegacyComponentSerializer.legacySection().serialize(titleComponent);
-        String[] guiSetup = {
-            "bbbbbbbbb",
-            "bbbbbbbbb",
-            "bbbbbbbbb",
-            "bbbbbbbbb",
-            "bbbbbbbbb",
-            "p   c a n"
-        };
-        InventoryGui gui2 = new InventoryGui(BannerMaker.getInstance(), player, title, guiSetup);
-        ChestGui gui = new ChestGui(6, title);
-        gui.setOnGlobalClick(event -> event.setCancelled(true));
+
+        InventoryGui mainMenuGUI = new InventoryGui(BannerMaker.getInstance(), player, title, GUI_MENU);
 
         // 1. 旗幟列表分頁面 (Paginated Pane)
         // AI Translated: 1. Banner list paginated pane (Paginated Pane)
-        PaginatedPane paginatedPane = new PaginatedPane(0, 0, 9, 5);
         List<ItemStack> banners = BannerMaker.getInstance().getBannerRepository().loadBannerList(player);
-        List<GuiItem> bannerItems = new ArrayList<>(); // TODO: Change
         GuiElementGroup group = new GuiElementGroup('b');
 
         for (ItemStack banner : banners) {
-            GuiItem item = new GuiItem(banner, event -> {// TODO: REMOVE
-                InventoryMenuUtil.openBannerInfo(player, banner);
-                event.setCancelled(true);
-            });
-            bannerItems.add(item);
             group.addElement(new StaticGuiElement('e', banner, event -> {
                 InventoryMenuUtil.openBannerInfo(player, banner);
                 return true;
             }));
         }
 
-        paginatedPane.populateWithGuiItems(bannerItems); // TODO: REMOVE
-        gui.addPane(paginatedPane); // TODO: REMOVE
-        gui2.addElements(group);
+        mainMenuGUI.addElements(group);
 
         // 2. 靜態控制面板 (Static Pane) - 用於放置導航和功能按鈕
         // AI Translated: 2. Static control panel (Static Pane) - used for placing navigation and function buttons
-        StaticPane navigationPane = new StaticPane(0, 5, 9, 1);
-        gui2.addElement(new GuiPageElement('p', new ItemStack(Material.ARROW), GuiPageElement.PageAction.PREVIOUS,
+        mainMenuGUI.addElement(new GuiPageElement('p', new ItemStack(Material.ARROW), GuiPageElement.PageAction.PREVIOUS,
                 "Go to previous page (%prevpage%)"));
-        gui2.addElement(new GuiPageElement('n', new ItemStack(Material.ARROW), GuiPageElement.PageAction.NEXT,
+        mainMenuGUI.addElement(new GuiPageElement('n', new ItemStack(Material.ARROW), GuiPageElement.PageAction.NEXT,
             "Go to next page (%nextpage%)"));
         // 初始化導航按鈕
-        // AI Translated: Initialize navigation buttons
-        updateNavigation(navigationPane, paginatedPane, gui, messageService); // TODO: REMOVE
 
         // 製作旗幟按鈕
         // AI Translated: Craft banner button
         ItemStack btnCreateBanner = new ItemBuilder(Material.LIME_WOOL)
             .name(tl(NamedTextColor.GREEN, "gui.create-banner"))
             .build();
-        navigationPane.addItem(new GuiItem(btnCreateBanner, event -> {
-            CreateBannerGUI.show(player);
-            event.setCancelled(true);
-        }), 4, 0);
-        gui2.addElement(new StaticGuiElement('c', btnCreateBanner, click -> {
+        mainMenuGUI.addElement(new StaticGuiElement('c', btnCreateBanner, click -> {
             CreateBannerGUI.show(player); // TODO: Change?
             return true;
         }));
@@ -99,67 +75,13 @@ public class MainMenuGUI {
             ItemStack btnCreateAlphabet = AlphabetBanner.get("A");
             ItemBuilder btnBuilder = new ItemBuilder(btnCreateAlphabet);
             btnBuilder.name(tl(NamedTextColor.GREEN, "gui.alphabet-and-number"));
-            navigationPane.addItem(new GuiItem(btnBuilder.build(), event -> {
-                ChooseAlphabetGUI.show(player);
-                event.setCancelled(true);
-            }), 6, 0); // Slot 51 是最後一行的第 7 格 (索引 6)
-            gui2.addElement(new StaticGuiElement('a', btnBuilder.build(), click ->{
+            mainMenuGUI.addElement(new StaticGuiElement('a', btnBuilder.build(), click ->{
                 ChooseAlphabetGUI.show(player);
                 return true;
             }));
             // AI Translated: Slot 51 is the 7th cell of the last row (index 6)
         }
-
-        gui.addPane(navigationPane);
-        gui.show(player);
-        //InventoryGui gui2 = InventoryGui.get(InventoryHolder holder);
-        gui2.show(player);
-    }
-
-    private static void updateNavigation(StaticPane navigationPane, PaginatedPane paginatedPane, ChestGui gui, MessageService messageService) {
-        // 清除舊的導航按鈕 (僅清除 Slot 45 和 53，即 StaticPane 的 (0,0) 和 (8,0))
-        // AI Translated: Clear old navigation buttons (only clear Slot 45 and 53, which are (0,0) and (8,0) of the StaticPane)
-        // 注意: StaticPane (0, 5, 9, 1) 使用本地座標。
-        // AI Translated: Note: StaticPane (0, 5, 9, 1) uses local coordinates.
-        // Slot 45 對應本地 (0, 0)。 Slot 53 對應本地 (8, 0)。
-        // AI Translated: Slot 45 corresponds to local (0, 0). Slot 53 corresponds to local (8, 0).
-
-        // 上一頁
-        // AI Translated: Previous page
-        if (paginatedPane.getPage() > 0) {
-            ItemStack prevPage = new ItemBuilder(Material.ARROW)
-                .amount(paginatedPane.getPage()) // 將當前頁碼設為物品數量 (視覺效果)
-                // AI Translated: Set the current page number as the item amount (visual effect)
-                .name(tl(NamedTextColor.GREEN, "gui.prev-page"))
-                .build();
-
-            navigationPane.addItem(new GuiItem(prevPage, event -> {
-                paginatedPane.setPage(paginatedPane.getPage() - 1);
-                updateNavigation(navigationPane, paginatedPane, gui, messageService);
-                gui.update();
-                event.setCancelled(true);
-            }), 0, 0);
-        } else {
-            navigationPane.removeItem(0, 0);
-        }
-
-        // 下一頁
-        // AI Translated: Next page
-        if (paginatedPane.getPage() < paginatedPane.getPages() - 1) {
-            ItemStack nextPage = new ItemBuilder(Material.ARROW)
-                .amount(paginatedPane.getPage() + 2) // 將下一頁碼設為物品數量 (視覺效果)
-                // AI Translated: Set the next page number as the item amount (visual effect)
-                .name(tl(NamedTextColor.GREEN, "gui.next-page"))
-                .build();
-
-            navigationPane.addItem(new GuiItem(nextPage, event -> {
-                paginatedPane.setPage(paginatedPane.getPage() + 1);
-                updateNavigation(navigationPane, paginatedPane, gui, messageService);
-                gui.update();
-                event.setCancelled(true);
-            }), 8, 0);
-        } else {
-            navigationPane.removeItem(8, 0);
-        }
+        //InventoryGui mainMenuGUI = InventoryGui.get(InventoryHolder holder);
+        mainMenuGUI.show(player);
     }
 }
