@@ -81,4 +81,7 @@ public class PlayerData {
     public void setInSimplePreviewMode(boolean inSimplePreviewMode) {
         this.inSimplePreviewMode = inSimplePreviewMode;
     }
+    public void toggleInSimplePreviewMode() {
+        this.inSimplePreviewMode = !this.inSimplePreviewMode;
+    }
 }
