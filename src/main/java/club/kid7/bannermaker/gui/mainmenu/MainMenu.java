@@ -42,6 +42,10 @@ public class MainMenu {
         mainMenuDisplay.addElement(buildPreviousPageButton());
         mainMenuDisplay.addElement(buildNextPageButton());
         mainMenuDisplay.addElement(buildCreateButton(player));
+        mainMenuDisplay.setCloseAction(close ->{
+            // save banner??? TODO defined behaviour
+            return false;
+        });
 
         if (BannerMaker.getInstance().isEnableAlphabetAndNumber()) {
             mainMenuDisplay.addElement(buildAlphanumericalSelector(player));

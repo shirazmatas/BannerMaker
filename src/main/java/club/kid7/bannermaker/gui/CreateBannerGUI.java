@@ -30,8 +30,8 @@ import static club.kid7.bannermaker.registry.DyeColorRegistry.getDyeMaterial;
 
 public class CreateBannerGUI {
     private static final String[] GUI_DESIGN_MODE = {
-        "xdddddddd",
-        "wdddddddd",
+        "xffffffff",
+        "wffffffff",
         "sbbbbbbbb",
         " bbbbbbbb",
         " bbbbbbbb",
@@ -61,9 +61,15 @@ public class CreateBannerGUI {
             return true;
         });
 
+        // Close Behaviour
+        createBannerGUI.setCloseAction(close ->{
+            // save banner??? TODO defined behaviour
+            return false;
+        });
+
         if (currentBanner == null) { // If no previous banner we are in setup phase
             // choose base color (using the same layout logic as color selection)
-            GuiElementGroup colorGroup = new GuiElementGroup('d');
+            GuiElementGroup colorGroup = new GuiElementGroup('f');
             for (int i = 0; i < 16; i++) {
                 final int colorIndex = i;
                 ItemStack banner = new ItemBuilder(DyeColorRegistry.getBannerMaterial(colorIndex)).build();
@@ -88,8 +94,8 @@ public class CreateBannerGUI {
             createBannerGUI.addElement(new StaticGuiElement('w', warning));
         }
 
-        // Color selectors = d
-        GuiElementGroup dyeGroup = new GuiElementGroup('d');
+        // Color selectors = f
+        GuiElementGroup dyeGroup = new GuiElementGroup('f');
         for (int colorIndex = 0; colorIndex < 16; colorIndex++) {
             ItemStack dye = new ItemBuilder(getDyeMaterial(getDyeColor(colorIndex))).build();
             // New Logic
