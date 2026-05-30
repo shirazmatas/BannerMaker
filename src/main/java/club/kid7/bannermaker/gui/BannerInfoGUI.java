@@ -36,7 +36,7 @@ public class BannerInfoGUI {
         "sssssssss",
         "sssssssss",
         "sssssssss",
-        "p   c ebl"
+        "p   c erl"
     };
     public static void show(Player player) {
         MessageService messageService = BannerMaker.getInstance().getMessageService();
@@ -152,7 +152,7 @@ public class BannerInfoGUI {
         if (player.hasPermission("BannerMaker.show.all")) {
             btnShow = new ItemBuilder(btnShow).addLore(Component.text("[", NamedTextColor.YELLOW).append(tl("gui.click.right")).append(Component.text("] ", NamedTextColor.YELLOW)).append(tl(NamedTextColor.GREEN, "gui.show-to-all"))).build();
         }
-        return new StaticGuiElement('b', btnShow, click -> {
+        return new StaticGuiElement('r', btnShow, click -> {
             if (click.getType().isLeftClick() && player.hasPermission("BannerMaker.show.nearby")) {
                 BannerMaker.getInstance().getBannerService().showToNearby(player, banner, 16);
             } else if (click.getType().isRightClick() && player.hasPermission("BannerMaker.show.all")) {
