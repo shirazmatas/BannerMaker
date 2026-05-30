@@ -3,6 +3,7 @@ package club.kid7.bannermaker.gui;
 import club.kid7.bannermaker.BannerMaker;
 import club.kid7.bannermaker.configuration.ConfigManager;
 import club.kid7.bannermaker.configuration.Language;
+import club.kid7.bannermaker.gui.mainmenu.MainMenu;
 import club.kid7.bannermaker.service.MessageService;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -20,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mockStatic;
 
-class MainMenuGUITest {
+class MainMenuTest {
 
     private ServerMock server;
     private BannerMaker plugin;
@@ -61,7 +62,7 @@ class MainMenuGUITest {
             String expectedTitle = LegacyComponentSerializer.legacySection().serialize(expectedTitleComponent);
 
             // When
-            MainMenuGUI.show(player);
+            MainMenu.show(player);
 
             // Then
             assertNotNull(player.getOpenInventory(), "玩家應該開啟了一個物品欄");
