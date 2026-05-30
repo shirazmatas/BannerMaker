@@ -1,26 +1,4 @@
 # BannerMaker
-
-[![GitHub Actions](https://github.com/jyhsu2000/BannerMaker/actions/workflows/maven.yml/badge.svg)](https://github.com/jyhsu2000/BannerMaker/actions/workflows/maven.yml)
-[![license](https://img.shields.io/github/license/jyhsu2000/BannerMaker.svg)](https://github.com/jyhsu2000/BannerMaker/blob/master/LICENSE)
-[![Crowdin](https://badges.crowdin.net/bannermaker/localized.svg)](https://crowdin.com/project/bannermaker)
-
-[![bStats Servers](https://img.shields.io/bstats/servers/383?label=bStats%20servers)](https://bstats.org/plugin/bukkit/BannerMaker)
-[![bStats Players](https://img.shields.io/bstats/players/383?label=bStats%20players)](https://bstats.org/plugin/bukkit/BannerMaker)
-[![Spiget Downloads](https://img.shields.io/spiget/downloads/4380?label=Spiget%20downloads)](https://www.spigotmc.org/resources/bannermaker.4380/)
-[![CurseForge Downloads](https://img.shields.io/curseforge/dt/89852?label=CurseForge%20downloads)](https://dev.bukkit.org/projects/bannermaker)
-
-Docs Links:
-[![changelog](https://img.shields.io/badge/changelog-en-green)](CHANGELOG.md)
-[![contributing](https://img.shields.io/badge/contributing-guide-green)](CONTRIBUTING.md)
-[![contributors](https://img.shields.io/badge/contributors-5d5d5d)](CONTRIBUTORS.md)
-
-External Links:
-[[BukkitDev]](https://dev.bukkit.org/projects/bannermaker)
-[[Spigot Resource]](http://www.spigotmc.org/resources/bannermaker.4380/)
-[[巴哈小屋]](http://home.gamer.com.tw/creationDetail.php?sn=2760067)
-
-*Read this in other languages: [English](README.md), [正體中文](README.zh-tw.md).*
-
 Feel banner is fun, but you don't know how to craft?  
 It's too hard to craft, so you make wrong usually?  
 You must try this plugin.
@@ -34,12 +12,7 @@ You don't need to know how to craft. All you need to know is how it will look li
 
 - Design and save banners
 - Look up recipe of banners
-- Multi-language support (Setting in `config.yml`)
-    - [All available languages](https://github.com/jyhsu2000/BannerMaker/tree/master/src/main/resources/language)
-  - Language files support [MiniMessage](https://docs.advntr.dev/minimessage/format.html) format and legacy `&` color
-    codes
-    - Welcome to contribute your translation [here](https://crowdin.com/project/bannermaker)
-- Economic support (require Vault installed)
+- Multi-language support (Setting in `config.yml`) (FUTURE)
 - Material estimates
 - Craft banner by using materials
 - Show/share your banners to others
