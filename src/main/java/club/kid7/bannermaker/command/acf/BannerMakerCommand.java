@@ -38,7 +38,7 @@ public class BannerMakerCommand extends BaseCommand {
 
     @Default
     @Description("{@@command.description.default}")
-    @CommandPermission("BannerMaker.use")
+    @CommandPermission("bannermaker.use")
     public void onDefault(Player player) {
         // 開啟選單
         // AI Translated: Open menu
@@ -54,7 +54,7 @@ public class BannerMakerCommand extends BaseCommand {
     }
 
     @Subcommand("reload")
-    @CommandPermission("BannerMaker.reload")
+    @CommandPermission("bannermaker.reload")
     @Description("{@@command.description.reload}")
     public void onReload(CommandSender sender) {
         plugin.reload();
@@ -62,7 +62,7 @@ public class BannerMakerCommand extends BaseCommand {
     }
 
     @Subcommand("see")
-    @CommandPermission("BannerMaker.see")
+    @CommandPermission("bannermaker.see")
     @Description("{@@command.description.see}")
     public void onSee(Player player) {
         Block block = player.getTargetBlockExact(20);
@@ -81,7 +81,7 @@ public class BannerMakerCommand extends BaseCommand {
     }
 
     @Subcommand("hand")
-    @CommandPermission("BannerMaker.hand")
+    @CommandPermission("bannermaker.hand")
     @Description("{@@command.description.hand}")
     public void onHand(Player player) {
         ItemStack itemStack = player.getInventory().getItemInMainHand();
@@ -100,7 +100,7 @@ public class BannerMakerCommand extends BaseCommand {
     }
 
     @Subcommand("view")
-    @CommandPermission("BannerMaker.view")
+    @CommandPermission("bannermaker.view")
     @Description("{@@command.description.view}")
     @Syntax("<bannerString>")
     public void onView(Player player, String bannerString) {
