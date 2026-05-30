@@ -29,7 +29,13 @@ import static club.kid7.bannermaker.configuration.Language.tl;
 import static club.kid7.bannermaker.util.TagUtil.tag;
 
 public class BannerInfoGUI {
-
+    private static final String[] BANNER_INFO_DISPLAY = {
+        "biw ggtgg",
+        "ssssguuug",
+        "sssspuuun",
+        "ssssguuug",
+        "ssssggc"
+    };
     public static void show(Player player) {
         MessageService messageService = BannerMaker.getInstance().getMessageService();
         PlayerData playerData = BannerMaker.getInstance().getPlayerDataMap().get(player);
