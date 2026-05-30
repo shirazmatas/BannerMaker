@@ -2,16 +2,13 @@ package club.kid7.bannermaker.gui;
 
 import club.kid7.bannermaker.BannerMaker;
 import club.kid7.bannermaker.PlayerData;
+import club.kid7.bannermaker.gui.mainmenu.MainMenu;
 import club.kid7.bannermaker.registry.DyeColorRegistry;
 import club.kid7.bannermaker.service.BannerRepository;
 import club.kid7.bannermaker.service.MessageService;
 import club.kid7.bannermaker.util.BannerUtil;
 import club.kid7.bannermaker.util.ItemBuilder;
-import com.github.stefvanschie.inventoryframework.gui.GuiItem;
-import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
-import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import de.themoep.inventorygui.GuiElementGroup;
-import de.themoep.inventorygui.GuiStateElement;
 import de.themoep.inventorygui.InventoryGui;
 import de.themoep.inventorygui.StaticGuiElement;
 import net.kyori.adventure.text.Component;
@@ -73,7 +70,7 @@ public class CreateBannerGUI {
 //            event.setCancelled(true);
 //        }), 0, 5);
         createBannerGUI.addElement('p', btnBackToMenu, click -> {
-            MainMenuGUI.show(player);
+            MainMenu.show(player);
             return true;
         });
 
@@ -260,7 +257,7 @@ public class CreateBannerGUI {
                 messageService.send(player, tl(NamedTextColor.RED, "io.save-failed"));
             }
             playerData.setCurrentEditBanner(null);
-            MainMenuGUI.show(player);
+            MainMenu.show(player);
             return true;
         }));
 

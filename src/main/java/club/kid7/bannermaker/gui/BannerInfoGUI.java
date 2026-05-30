@@ -3,6 +3,7 @@ package club.kid7.bannermaker.gui;
 import club.kid7.bannermaker.AlphabetBanner;
 import club.kid7.bannermaker.BannerMaker;
 import club.kid7.bannermaker.PlayerData;
+import club.kid7.bannermaker.gui.mainmenu.MainMenu;
 import club.kid7.bannermaker.service.EconomyService;
 import club.kid7.bannermaker.service.MessageService;
 import club.kid7.bannermaker.util.BannerUtil;
@@ -36,7 +37,7 @@ public class BannerInfoGUI {
         final ItemStack banner = playerData.getViewInfoBanner();
 
         if (!BannerUtil.isBanner(banner)) {
-            MainMenuGUI.show(player);
+            MainMenu.show(player);
             return;
         }
 
@@ -111,7 +112,7 @@ public class BannerInfoGUI {
             if (AlphabetBanner.isAlphabetBanner(banner)) {
                 CreateAlphabetGUI.show(player);
             } else {
-                MainMenuGUI.show(player);
+                MainMenu.show(player);
             }
             event.setCancelled(true);
         }), 0, 5); // 修正為 (0, 5)
@@ -125,7 +126,7 @@ public class BannerInfoGUI {
             mainPane.addItem(new GuiItem(btnDelete, event -> {
                 BannerMaker.getInstance().getBannerRepository().removeBanner(player, key);
                 messageService.send(player, tl(NamedTextColor.GREEN, "io.remove-banner", tag("key", key)));
-                MainMenuGUI.show(player);
+                MainMenu.show(player);
                 event.setCancelled(true);
             }), 2, 5); // 修正為 (2, 5)
             // AI Translated: Corrected to (2, 5)
