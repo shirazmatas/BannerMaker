@@ -2,7 +2,7 @@ package club.kid7.bannermaker.gui;
 
 import club.kid7.bannermaker.BannerMaker;
 import club.kid7.bannermaker.PlayerData;
-import club.kid7.bannermaker.gui.mainmenu.MainMenu;
+import club.kid7.bannermaker.gui.mainmenu.MainMenuController;
 import club.kid7.bannermaker.registry.DyeColorRegistry;
 import club.kid7.bannermaker.service.BannerRepository;
 import club.kid7.bannermaker.service.MessageService;
@@ -57,7 +57,7 @@ public class CreateBannerGUI {
         InventoryGui createBannerGUI = new InventoryGui(BannerMaker.getInstance(), player, title, GUI_DESIGN_MODE);
         ItemStack btnBackToMenu = new ItemBuilder(Material.RED_WOOL).name(tl(NamedTextColor.RED, "gui.back")).build();
         createBannerGUI.addElement('p', btnBackToMenu, click -> {
-            MainMenu.show(player);
+            MainMenuController.show(player);
             return true;
         });
 
@@ -173,7 +173,7 @@ public class CreateBannerGUI {
                 messageService.send(player, tl(NamedTextColor.RED, "io.save-failed"));
             }
             playerData.setCurrentEditBanner(null);
-            MainMenu.show(player);
+            MainMenuController.show(player);
             return true;
         }));
 

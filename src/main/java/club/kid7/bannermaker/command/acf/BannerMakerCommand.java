@@ -1,7 +1,7 @@
 package club.kid7.bannermaker.command.acf;
 
 import club.kid7.bannermaker.BannerMaker;
-import club.kid7.bannermaker.gui.mainmenu.MainMenu;
+import club.kid7.bannermaker.gui.mainmenu.MainMenuController;
 import club.kid7.bannermaker.registry.DyeColorRegistry;
 import club.kid7.bannermaker.util.BannerUtil;
 import club.kid7.bannermaker.util.InventoryMenuUtil;
@@ -44,7 +44,7 @@ public class BannerMakerCommand extends BaseCommand {
         // AI Translated: Open menu
         // TODO: (GUI 遷移) 未來若有需要，可考慮整合 PlayerData 中的頁碼記憶功能。
         // AI Translated: (GUI migration) In the future, if needed, consider integrating the page number memory function in PlayerData.
-        MainMenu.show(player);
+        MainMenuController.show(player);
     }
 
     @HelpCommand

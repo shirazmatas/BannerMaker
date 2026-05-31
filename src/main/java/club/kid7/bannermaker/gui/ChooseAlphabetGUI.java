@@ -3,7 +3,7 @@ package club.kid7.bannermaker.gui;
 import club.kid7.bannermaker.AlphabetBanner;
 import club.kid7.bannermaker.BannerMaker;
 import club.kid7.bannermaker.PlayerData;
-import club.kid7.bannermaker.gui.mainmenu.MainMenu;
+import club.kid7.bannermaker.gui.mainmenu.MainMenuController;
 import club.kid7.bannermaker.service.MessageService;
 import club.kid7.bannermaker.util.ItemBuilder;
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
@@ -78,7 +78,7 @@ public class ChooseAlphabetGUI {
         // AI Translated: Slot 45 (0,5): Back button
         ItemStack btnBackToMenu = new ItemBuilder(Material.RED_WOOL).name(tl(NamedTextColor.RED, "gui.back")).build();
         mainPane.addItem(new GuiItem(btnBackToMenu, event -> {
-            MainMenu.show(player);
+            MainMenuController.show(player);
             event.setCancelled(true);
         }), 0, 5); // 修正為 (0, 5)
         // AI Translated: Corrected to (0, 5)

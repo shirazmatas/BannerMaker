@@ -3,13 +3,11 @@ package club.kid7.bannermaker.gui;
 import club.kid7.bannermaker.AlphabetBanner;
 import club.kid7.bannermaker.BannerMaker;
 import club.kid7.bannermaker.PlayerData;
-import club.kid7.bannermaker.gui.mainmenu.MainMenu;
-import club.kid7.bannermaker.service.EconomyService;
+import club.kid7.bannermaker.gui.mainmenu.MainMenuController;
 import club.kid7.bannermaker.service.MessageService;
 import club.kid7.bannermaker.util.BannerUtil;
 import club.kid7.bannermaker.util.InventoryUtil;
 import club.kid7.bannermaker.util.ItemBuilder;
-import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import de.themoep.inventorygui.GuiElement;
 import de.themoep.inventorygui.GuiElementGroup;
 import de.themoep.inventorygui.InventoryGui;
@@ -45,7 +43,7 @@ public class BannerInfoGUI {
         final ItemStack banner = playerData.getViewInfoBanner();
 
         if (!BannerUtil.isBanner(banner)) {
-            MainMenu.show(player);
+            MainMenuController.show(player);
             return;
         }
 
@@ -177,7 +175,7 @@ public class BannerInfoGUI {
         return new StaticGuiElement('d',btnDelete, click -> {
             BannerMaker.getInstance().getBannerRepository().removeBanner(player, key);
             messageService.send(player, tl(NamedTextColor.GREEN, "io.remove-banner", tag("key", key)));
-            MainMenu.show(player);
+            MainMenuController.show(player);
             return true;
         });
     }
@@ -188,7 +186,7 @@ public class BannerInfoGUI {
             if (AlphabetBanner.isAlphabetBanner(banner)){
                 CreateAlphabetGUI.show(player);
             } else {
-                MainMenu.show(player);
+                MainMenuController.show(player);
             }
             return true;
         });
