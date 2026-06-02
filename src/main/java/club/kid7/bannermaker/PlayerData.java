@@ -84,4 +84,8 @@ public class PlayerData {
     public void toggleInSimplePreviewMode() {
         this.inSimplePreviewMode = !this.inSimplePreviewMode;
     }
+
+    public void toggleDefaultAlphabetBordered() {
+        this.alphabetBannerBordered = !this.alphabetBannerBordered;
+    }
 }
