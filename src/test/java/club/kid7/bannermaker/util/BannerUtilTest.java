@@ -1,5 +1,6 @@
 package club.kid7.bannermaker.util;
 
+import club.kid7.bannermaker.banner.BannerCost;
 import club.kid7.bannermaker.BannerMaker;
 import club.kid7.bannermaker.configuration.ConfigManager;
 import club.kid7.bannermaker.service.BannerService;
@@ -99,7 +100,7 @@ class BannerUtilTest {
         meta.addPattern(new Pattern(DyeColor.BLUE, PatternType.STRIPE_BOTTOM));
         banner.setItemMeta(meta);
 
-        List<ItemStack> materials = BannerUtil.getMaterials(banner);
+        List<ItemStack> materials = BannerCost.getMaterials(banner);
 
         // 預期：1 木棒 + 6 白色羊毛 + 1 紅色染料 + 3 藍色染料
         assertNotNull(materials);
@@ -133,7 +134,7 @@ class BannerUtilTest {
         inv.addItem(new ItemStack(Material.WHITE_WOOL, 6));
         inv.addItem(new ItemStack(Material.RED_DYE, 1));
 
-        assertTrue(BannerUtil.hasEnoughMaterials(inv, banner));
+        assertTrue(BannerCost.hasEnoughMaterials(inv, banner));
     }
 
     @Test
@@ -146,7 +147,7 @@ class BannerUtilTest {
         // 物品欄為空
         PlayerMock player = server.addPlayer("EmptyPlayer");
 
-        assertFalse(BannerUtil.hasEnoughMaterials(player.getInventory(), banner));
+        assertFalse(BannerCost.hasEnoughMaterials(player.getInventory(), banner));
     }
 
     @Test
@@ -160,7 +161,7 @@ class BannerUtilTest {
         PlayerMock player = server.addPlayer("PartialPlayer");
         player.getInventory().addItem(new ItemStack(Material.STICK, 1));
 
-        assertFalse(BannerUtil.hasEnoughMaterials(player.getInventory(), banner));
+        assertFalse(BannerCost.hasEnoughMaterials(player.getInventory(), banner));
     }
 
     @Test
@@ -188,6 +189,62 @@ class BannerUtilTest {
         assertFalse(inv.containsAtLeast(new ItemStack(Material.RED_DYE), 1), "染料應被消耗");
         // 玩家應獲得旗幟
         assertTrue(inv.containsAtLeast(new ItemStack(Material.WHITE_BANNER), 1), "玩家應獲得旗幟");
+    }
+
+    @Test
+    void craft_ShouldNotConsumeBannerPattern() {
+        // 白色旗幟 + PIGLIN pattern
+        ItemStack banner = new ItemStack(Material.WHITE_BANNER);
+        BannerMeta meta = (BannerMeta) banner.getItemMeta();
+        meta.addPattern(new Pattern(DyeColor.BLACK, PatternType.PIGLIN));
+        banner.setItemMeta(meta);
+
+        // 給予材料，包括 PIGLIN 旗幟圖形和黑色染料
+        PlayerMock player = server.addPlayer("PatternPlayer");
+        PlayerInventory inv = player.getInventory();
+        inv.addItem(new ItemStack(Material.STICK, 1));
+        inv.addItem(new ItemStack(Material.WHITE_WOOL, 6));
+        inv.addItem(new ItemStack(Material.PIGLIN_BANNER_PATTERN, 1));
+        inv.addItem(new ItemStack(Material.BLACK_DYE, 1));
+
+        BannerService bannerService = plugin.getBannerService();
+        boolean result = bannerService.craft(player, banner);
+
+        assertTrue(result, "合成應該成功");
+        // 材料應被消耗
+        assertFalse(inv.containsAtLeast(new ItemStack(Material.STICK), 1), "木棒應被消耗");
+        assertFalse(inv.containsAtLeast(new ItemStack(Material.WHITE_WOOL), 6), "羊毛應被消耗");
+        assertFalse(inv.containsAtLeast(new ItemStack(Material.BLACK_DYE), 1), "黑色染料應被消耗");
+        // 旗幟圖形不應被消耗
+        assertTrue(inv.containsAtLeast(new ItemStack(Material.PIGLIN_BANNER_PATTERN), 1), "旗幟圖形不應被消耗");
+        // 玩家應獲得旗幟
+        assertTrue(inv.containsAtLeast(new ItemStack(Material.WHITE_BANNER), 1), "玩家應獲得旗幟");
+    }
+
+    @Test
+    void craft_ShouldNotConsumeCreeperPatternItem() {
+        // 白色旗幟 + CREEPER pattern
+        ItemStack banner = new ItemStack(Material.WHITE_BANNER);
+        BannerMeta meta = (BannerMeta) banner.getItemMeta();
+        meta.addPattern(new Pattern(DyeColor.GREEN, PatternType.CREEPER));
+        banner.setItemMeta(meta);
+
+        // 給予材料，包括 CREEPER_BANNER_PATTERN
+        PlayerMock player = server.addPlayer("CreeperPlayer");
+        PlayerInventory inv = player.getInventory();
+        inv.addItem(new ItemStack(Material.STICK, 1));
+        inv.addItem(new ItemStack(Material.WHITE_WOOL, 6));
+        inv.addItem(new ItemStack(Material.CREEPER_BANNER_PATTERN, 1));
+        inv.addItem(new ItemStack(Material.GREEN_DYE, 1));
+
+        BannerService bannerService = plugin.getBannerService();
+        boolean result = bannerService.craft(player, banner);
+
+        assertTrue(result, "合成應該成功");
+        // 旗幟圖形不應被消耗
+        assertTrue(inv.containsAtLeast(new ItemStack(Material.CREEPER_BANNER_PATTERN), 1), "旗幟圖形不應被消耗");
+        // 染料應被消耗
+        assertFalse(inv.containsAtLeast(new ItemStack(Material.GREEN_DYE), 1), "染料應被消耗");
     }
 
     @Test

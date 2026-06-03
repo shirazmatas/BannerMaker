@@ -88,7 +88,11 @@ public class BannerCost {
     /** One special item + 1 corresponding color dye (Black is base, no extra color added). */
     private static PatternMaterialContributor specialWithOptionalDye(Material special) {
         return (acc, color) -> {
-            acc.add(new ItemStack(special));
+            if (special.toString().endsWith("_BANNER_PATTERN") || special.toString().equals("FIELD_MASONED_BANNER_PATTERN")) {
+                acc.addLoomItemOnce(special);
+            } else {
+                acc.add(new ItemStack(special));
+            }
             if (!color.equals(DyeColor.BLACK)) {
                 acc.add(DyeColorRegistry.getDyeItemStack(color, 1));
             }
@@ -107,10 +111,26 @@ public class BannerCost {
     private static PatternMaterialContributor bricksContributor() {
         return (acc, color) -> {
             Material fieldMasoned = Material.matchMaterial("FIELD_MASONED_BANNER_PATTERN");
-            acc.add(new ItemStack(fieldMasoned != null ? fieldMasoned : Material.BRICK));
+            if (fieldMasoned != null) {
+                acc.addLoomItemOnce(fieldMasoned);
+            } else {
+                acc.add(new ItemStack(Material.BRICK));
+            }
             if (!color.equals(DyeColor.BLACK)) {
                 acc.add(DyeColorRegistry.getDyeItemStack(color, 1));
             }
+        };
+    }
+
+    private static PatternMaterialContributor loomPattern(String patternName) {
+        return (acc, color) -> {
+            Material material = Material.matchMaterial(patternName);
+            if (material != null) {
+                acc.addLoomItemOnce(material);
+            }
+            // All patterns consume 1 dye except possibly when color is BLACK if it's the base...
+            // But wait, in Loom you ALWAYS need 1 dye.
+            acc.add(DyeColorRegistry.getDyeItemStack(color, 1));
         };
     }
 
@@ -158,11 +178,11 @@ public class BannerCost {
         // 8 Dyes ── Border
         Map.entry(PatternType.BORDER, dyeOnly(8)),
         // Special item + Dye
-        Map.entry(PatternType.CURLY_BORDER, specialWithOptionalDye(Material.VINE)),
-        Map.entry(PatternType.CREEPER, specialWithOptionalDye(Material.CREEPER_HEAD)),
-        Map.entry(PatternType.SKULL, specialWithOptionalDye(Material.WITHER_SKELETON_SKULL)),
-        Map.entry(PatternType.FLOWER, specialWithOptionalDye(Material.OXEYE_DAISY)),
-        Map.entry(PatternType.MOJANG, specialWithOptionalDye(Material.ENCHANTED_GOLDEN_APPLE)),
+        Map.entry(PatternType.CURLY_BORDER, loomPattern("BORDURE_BANNER_PATTERN")),
+        Map.entry(PatternType.CREEPER, loomPattern("CREEPER_BANNER_PATTERN")),
+        Map.entry(PatternType.SKULL, loomPattern("SKULL_BANNER_PATTERN")),
+        Map.entry(PatternType.FLOWER, loomPattern("FLOWER_BANNER_PATTERN")),
+        Map.entry(PatternType.MOJANG, loomPattern("MOJANG_BANNER_PATTERN")),
         Map.entry(PatternType.BRICKS, bricksContributor()),
         // Banner pattern items (for loom, reusable)
         Map.entry(PatternType.PIGLIN, patternItem(Material.PIGLIN_BANNER_PATTERN)),

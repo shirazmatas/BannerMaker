@@ -1,5 +1,6 @@
 package club.kid7.bannermaker.service;
 
+import club.kid7.bannermaker.banner.BannerCost;
 import club.kid7.bannermaker.BannerMaker;
 import club.kid7.bannermaker.util.BannerUtil;
 import club.kid7.bannermaker.util.InventoryUtil;
@@ -34,7 +35,7 @@ public class BannerService {
      */
     public boolean craft(Player player, ItemStack banner) {
         //Check materials
-        if (!BannerUtil.hasEnoughMaterials(player.getInventory(), banner)) {
+        if (!BannerCost.hasEnoughMaterials(player.getInventory(), banner)) {
             return false;
         }
         //Remove materials
@@ -190,13 +191,16 @@ public class BannerService {
         if (!BannerUtil.isBanner(banner)) {
             return false;
         }
-        if (!BannerUtil.hasEnoughMaterials(player.getInventory(), banner)) {
+        if (!BannerCost.hasEnoughMaterials(player.getInventory(), banner)) {
             return false;
         }
-        List<ItemStack> materials = BannerUtil.getMaterials(banner);
-        //過濾材料，不須消耗旗幟圖形
-        // AI Translated: Filter materials, banner patterns do not need to be consumed
-        materials.removeIf(BannerUtil::isBannerPatternItemStack);
+        List<ItemStack> materials = BannerCost.getMaterials(banner);
+        //過濾材料，不須消耗旗幟圖形與特殊的 loom 材料
+        // AI Translated: Filter materials, banner patterns and special loom materials do not need to be consumed
+        materials.removeIf(item -> {
+            String type = item.getType().toString();
+            return type.endsWith("_BANNER_PATTERN") || type.equals("FIELD_MASONED_BANNER_PATTERN");
+        });
         HashMap<Integer, ItemStack> itemCannotRemoved = player.getInventory().removeItem(materials.toArray(new ItemStack[0]));
         return itemCannotRemoved.isEmpty();
     }

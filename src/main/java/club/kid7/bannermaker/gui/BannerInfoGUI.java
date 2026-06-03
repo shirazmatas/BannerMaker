@@ -1,5 +1,6 @@
 package club.kid7.bannermaker.gui;
 
+import club.kid7.bannermaker.banner.BannerCost;
 import club.kid7.bannermaker.banner.AlphabetBanner;
 import club.kid7.bannermaker.BannerMaker;
 import club.kid7.bannermaker.PlayerData;
@@ -199,7 +200,7 @@ public class BannerInfoGUI {
     }
 
     private static List<GuiElement> buildMaterials(ItemStack banner) {
-        List<ItemStack> materialList = BannerUtil.getMaterials(banner);
+        List<ItemStack> materialList = BannerCost.getMaterials(banner);
         return materialList.stream().map(BannerInfoGUI::buildMaterialDisplay).collect(toList());
     }
 
@@ -209,7 +210,7 @@ public class BannerInfoGUI {
 
     private static StaticGuiElement buildSufficientMaterial(Player player, ItemStack banner) {
         ItemStack enoughMaterials;
-        if (BannerUtil.hasEnoughMaterials(player.getInventory(), banner)) {
+        if (BannerCost.hasEnoughMaterials(player.getInventory(), banner)) {
             enoughMaterials = new ItemBuilder(Material.OAK_SIGN).name(tl(NamedTextColor.GREEN, "gui.materials.enough")).build();
         } else {
             enoughMaterials = new ItemBuilder(Material.OAK_SIGN).name(tl(NamedTextColor.RED, "gui.materials.not-enough")).build();
