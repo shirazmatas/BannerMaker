@@ -40,10 +40,8 @@ public class BannerMakerCommand extends BaseCommand {
     @Description("{@@command.description.default}")
     @CommandPermission("bannermaker.use")
     public void onDefault(Player player) {
-        // 開啟選單
-        // AI Translated: Open menu
-        // TODO: (GUI 遷移) 未來若有需要，可考慮整合 PlayerData 中的頁碼記憶功能。
-        // AI Translated: (GUI migration) In the future, if needed, consider integrating the page number memory function in PlayerData.
+        // Open menu
+        // TODO: (GUI migration) In the future, if needed, consider integrating the page number memory function in PlayerData.
         MainMenu.show(player);
     }
 
