@@ -4,11 +4,10 @@ import club.kid7.bannermaker.AlphabetBanner;
 import club.kid7.bannermaker.BannerMaker;
 import club.kid7.bannermaker.PlayerData;
 import club.kid7.bannermaker.registry.DyeColorRegistry;
-import club.kid7.bannermaker.service.MessageService;
 import club.kid7.bannermaker.util.ItemBuilder;
-import com.github.stefvanschie.inventoryframework.gui.GuiItem;
-import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
-import com.github.stefvanschie.inventoryframework.pane.StaticPane;
+import de.themoep.inventorygui.GuiElementGroup;
+import de.themoep.inventorygui.InventoryGui;
+import de.themoep.inventorygui.StaticGuiElement;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -22,18 +21,25 @@ import org.bukkit.inventory.ItemStack;
 import static club.kid7.bannermaker.configuration.Language.tl;
 
 public class CreateAlphabetGUI {
+    private static final String[] GUI_ALPHABET_DESIGN_MODE = {
+        "xbbbbbbbb",
+        " bbbbbbbb",
+        " dddddddd",
+        " dddddddd",
+        " t       ",
+        "p   c    "
+    };
 
     public static void show(Player player) {
-        MessageService messageService = BannerMaker.getInstance().getMessageService();
         PlayerData playerData = BannerMaker.getInstance().getPlayerDataMap().get(player);
 
         Component titleComponent = tl("gui.title.prefix").append(tl("gui.title.alphabet-and-number"));
         String title = LegacyComponentSerializer.legacySection().serialize(titleComponent);
-        ChestGui gui = new ChestGui(6, title);
-        gui.setOnGlobalClick(event -> event.setCancelled(true));
+        InventoryGui createAlphabetGUI = new InventoryGui(BannerMaker.getInstance(), player, title, GUI_ALPHABET_DESIGN_MODE);
+        createAlphabetGUI.setCloseAction(close ->{
+            return false;
+        });
 
-        StaticPane mainPane = new StaticPane(0, 0, 9, 6);
-        gui.addPane(mainPane);
 
         final AlphabetBanner currentAlphabetBanner = playerData.getCurrentAlphabetBanner();
         if (currentAlphabetBanner == null) {
@@ -41,73 +47,60 @@ public class CreateAlphabetGUI {
             return;
         }
 
-        // Slot 0 (0,0): 預覽
-        // AI Translated: Slot 0 (0,0): Preview
-        mainPane.addItem(new GuiItem(currentAlphabetBanner.toItemStack()), 0, 0);
+        // Slot 0 (0,0):Preview
+        createAlphabetGUI.addElement(new StaticGuiElement('x', currentAlphabetBanner.toItemStack()));
 
-        // 底色選擇 (Slots 1-17, 第 0 和 1 行)
-        // AI Translated: Base color selection (Slots 1-17, row 0 and 1)
-        // 原始邏輯: i + 1 + (i / 8) -> Slot 1-8, 10-17
-        // AI Translated: Original logic: i + 1 + (i / 8) -> Slot 1-8, 10-17
+        // Base color selection (Slots 1-17, row 0 and 1)
+        GuiElementGroup bannerGroup = new GuiElementGroup('b');
         for (int i = 0; i < 16; i++) {
             final ItemStack banner = new ItemBuilder(DyeColorRegistry.getBannerMaterial(i)).build();
-            int slot = i + 1 + (i / 8);
-            mainPane.addItem(new GuiItem(banner, event -> {
+            bannerGroup.addElement(new StaticGuiElement('e',banner,click -> {
                 currentAlphabetBanner.setBaseColor(DyeColorRegistry.getDyeColor(banner.getType()));
-                playerData.setCurrentAlphabetBanner(currentAlphabetBanner);
                 CreateAlphabetGUI.show(player);
-                event.setCancelled(true);
-            }), slot % 9, slot / 9);
+                return true;
+            }));
         }
+        createAlphabetGUI.addElement(bannerGroup);
 
-        // 染料顏色選擇 (Slots 19-35, 第 2 和 3 行)
-        // AI Translated: Dye color selection (Slots 19-35, row 2 and 3)
-        // 原始邏輯: 18 + i + 1 + (i / 8) -> Slot 19-26, 28-35
-        // AI Translated: Original logic: 18 + i + 1 + (i / 8) -> Slot 19-26, 28-35
+        // Dye color selection (Slots 19-35, row 2 and 3)
+        GuiElementGroup dyeGroup = new GuiElementGroup('d');
         for (int i = 0; i < 16; i++) {
             final ItemStack dye = new ItemBuilder(DyeColorRegistry.getDyeMaterial(i)).build();
-            int slot = 18 + i + 1 + (i / 8);
-            mainPane.addItem(new GuiItem(dye, event -> {
+            dyeGroup.addElement(new StaticGuiElement('e',dye,click -> {
                 currentAlphabetBanner.setDyeColor(DyeColorRegistry.getDyeColor(dye.getType()));
-                playerData.setCurrentAlphabetBanner(currentAlphabetBanner);
                 CreateAlphabetGUI.show(player);
-                event.setCancelled(true);
-            }), slot % 9, slot / 9);
+                return true;
+            }));
         }
+        createAlphabetGUI.addElement(dyeGroup);
 
-        // Slot 37 (1,4): 切換邊框
-        // AI Translated: Slot 37 (1,4): Toggle border
+        // Toggle border
         ItemStack btnBorderedBanner = new ItemBuilder(Material.WHITE_BANNER)
             .name(tl(NamedTextColor.GREEN, "gui.toggle-border"))
             .pattern(new Pattern(DyeColor.BLACK, PatternType.BORDER)).build();
-        mainPane.addItem(new GuiItem(btnBorderedBanner, event -> {
-            currentAlphabetBanner.setBordered(!currentAlphabetBanner.isBordered());
+        createAlphabetGUI.addElement(new StaticGuiElement('t',btnBorderedBanner,click -> {
+            currentAlphabetBanner.setBordered(! currentAlphabetBanner.isBordered());
             playerData.setCurrentAlphabetBanner(currentAlphabetBanner);
-            CreateAlphabetGUI.show(player);
-            event.setCancelled(true);
-        }), 1, 4); // 修正為 (1, 4)
-        // AI Translated: Corrected to (1, 4)
+            createAlphabetGUI.show(player);
+            return true;
+        }));
 
-        // Slot 49 (4,5): 旗幟資訊
-        // AI Translated: Slot 49 (4,5): Banner info
+        // Banner info
         ItemStack btnBannerInfo = new ItemBuilder(Material.LIME_WOOL).name(tl(NamedTextColor.GREEN, "gui.banner-info")).build();
-        mainPane.addItem(new GuiItem(btnBannerInfo, event -> {
-            playerData.setViewInfoBanner(currentAlphabetBanner.toItemStack());
+        createAlphabetGUI.addElement(new StaticGuiElement('c',btnBannerInfo,click -> {
+            playerData.setViewInfoBanner(currentAlphabetBanner.toItemStack()); // TODO: Replace with smarter refresh as shown in latest update
             playerData.setCurrentRecipePage(1);
             BannerInfoGUI.show(player);
-            event.setCancelled(true);
-        }), 4, 5); // 修正為 (4, 5)
-        // AI Translated: Corrected to (4, 5)
+            return true;
+        }));
 
-        // Slot 45 (0,5): 返回按鈕
-        // AI Translated: Slot 45 (0,5): Back button
+        // Back button
         ItemStack btnBackToMenu = new ItemBuilder(Material.RED_WOOL).name(tl(NamedTextColor.RED, "gui.back")).build();
-        mainPane.addItem(new GuiItem(btnBackToMenu, event -> {
+        createAlphabetGUI.addElement(new StaticGuiElement('p',btnBackToMenu,click -> {
             ChooseAlphabetGUI.show(player);
-            event.setCancelled(true);
-        }), 0, 5); // 修正為 (0, 5)
-        // AI Translated: Corrected to (0, 5)
+            return true;
+        }));
 
-        gui.show(player);
+        createAlphabetGUI.show(player);
     }
 }
