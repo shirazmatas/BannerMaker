@@ -36,7 +36,7 @@ public class BannerInfoGUI {
         "sssssssss",
         "sssssssss",
         "sssssssss",
-        "p   c erl"
+        "p d c erl"
     };
     public static void show(Player player) {
         MessageService messageService = BannerMaker.getInstance().getMessageService();
