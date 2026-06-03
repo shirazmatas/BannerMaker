@@ -40,15 +40,13 @@ public class BannerMaker extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        // 初始化服務
-        // AI Translated: Initialize services
+        // Initialize services
         messageService = new MessageService(this);
         economyService = new EconomyService();
         bannerService = new BannerService();
         bannerRepository = new BannerRepository();
 
-        // 初始化 ACF Command Manager
-        // AI Translated: Initialize ACF Command Manager
+        // Initialize ACF Command Manager
         commandManager = new PaperCommandManager(this);
         commandManager.enableUnstableAPI("help");
 
@@ -80,15 +78,13 @@ public class BannerMaker extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // 關閉 MessageService 的 Audiences
-        // AI Translated: Close Audiences of MessageService
+        // Close Audiences of MessageService
         if (messageService != null) {
             messageService.closeAudiences();
         }
     }
 
-    // 提供 MessageService 的 getter
-    // AI Translated: Provide getter for MessageService
+    // Provide getter for MessageService
     public MessageService getMessageService() {
         return messageService;
     }
@@ -132,52 +128,42 @@ public class BannerMaker extends JavaPlugin {
     public void reload() {
         //Reload Config
         ConfigManager.reloadAll();
-        //載入語言包
-        // AI Translated: Load language pack
+        // Load language pack
         new Language(this).loadLanguage();
         //Check Default Config
         new DefaultConfig(this).checkConfig();
-        //經濟
-        // AI Translated: Economy
+        // Economy
         if (setupEconomy()) {
             messageService.send(getServer().getConsoleSender(), tl("general.economy-enabled"));
         } else {
             messageService.send(getServer().getConsoleSender(), tl("general.economy-disabled"));
         }
-        //設定檔
-        // AI Translated: Configuration file
+        // Configuration file
         FileConfiguration config = ConfigManager.get("config");
         if (config != null) {
-            //字母與數字
-            // AI Translated: Letters and numbers
+            // Letters and numbers
             enableAlphabetAndNumber = config.getBoolean("AlphabetAndNumberBanner.Enable", true);
-            //複雜旗幟合成
-            // AI Translated: Complex banner crafting
+            // Complex banner crafting
             enableComplexBannerCraft = config.getBoolean("ComplexBannerCraft.Enable", false);
         }
-        //玩家資料
-        // AI Translated: Player data
+        // Player data
         playerDataMap = new PlayerDataMap();
     }
 
     private boolean setupEconomy() {
         econ = null;
-        //檢查設定
-        // AI Translated: Check settings
+        // Check settings
         FileConfiguration config = ConfigManager.get("config");
-        //若無啟用經濟
-        // AI Translated: If economy is not enabled
+        // If economy is not enabled
         if (!config.getBoolean("Economy.Enable", false)) {
             return false;
         }
 
-        //檢查Vault
-        // AI Translated: Check Vault
+        // Check Vault
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
         }
-        //檢查經濟支援
-        // AI Translated: Check economy support
+        // Check economy support
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp == null) {
             return false;
