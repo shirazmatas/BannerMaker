@@ -1,15 +1,13 @@
 package club.kid7.bannermaker.gui;
 
-import club.kid7.bannermaker.AlphabetBanner;
+import club.kid7.bannermaker.banner.AlphabetBanner;
 import club.kid7.bannermaker.BannerMaker;
 import club.kid7.bannermaker.PlayerData;
 import club.kid7.bannermaker.gui.mainmenu.MainMenu;
-import club.kid7.bannermaker.service.EconomyService;
 import club.kid7.bannermaker.service.MessageService;
 import club.kid7.bannermaker.util.BannerUtil;
 import club.kid7.bannermaker.util.InventoryUtil;
 import club.kid7.bannermaker.util.ItemBuilder;
-import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import de.themoep.inventorygui.GuiElement;
 import de.themoep.inventorygui.GuiElementGroup;
 import de.themoep.inventorygui.InventoryGui;
