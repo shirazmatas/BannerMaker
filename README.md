@@ -2,7 +2,8 @@
 Feel banner is fun, but you don't know how to craft?  
 It's too hard to craft, so you make wrong usually?  
 You must try this plugin.
-
+Reworked version of jyhsu2000's bannermaker.
+Folia supported as ChestGUI swapped with InventoryGUI.
 ## Description
 
 Using just one command, you can use GUI of this plugin to design any kind of banner.  
