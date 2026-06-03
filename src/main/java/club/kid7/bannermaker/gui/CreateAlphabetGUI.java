@@ -80,8 +80,7 @@ public class CreateAlphabetGUI {
             .pattern(new Pattern(DyeColor.BLACK, PatternType.BORDER)).build();
         createAlphabetGUI.addElement(new StaticGuiElement('t',btnBorderedBanner,click -> {
             currentAlphabetBanner.setBordered(! currentAlphabetBanner.isBordered());
-            playerData.setCurrentAlphabetBanner(currentAlphabetBanner);
-            createAlphabetGUI.show(player);
+            CreateAlphabetGUI.show(player);
             return true;
         }));
 
