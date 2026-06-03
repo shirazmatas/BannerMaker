@@ -33,13 +33,11 @@ public class BannerService {
      * AI Translated: Whether it was successfully given
      */
     public boolean craft(Player player, ItemStack banner) {
-        //檢查材料
-        // AI Translated: Check materials
+        //Check materials
         if (!BannerUtil.hasEnoughMaterials(player.getInventory(), banner)) {
             return false;
         }
-        //移除材料
-        // AI Translated: Remove materials
+        //Remove materials
         if (!removeMaterials(player, banner)) {
             return false;
         }
@@ -49,15 +47,11 @@ public class BannerService {
     }
 
     /**
-     * 購買旗幟
-     * AI Translated: Buy banner
+     * Buy banner
      *
-     * @param player 要給予物品的玩家
-     * AI Translated: The player to give items to
-     * @param banner 要給予的旗幟
-     * AI Translated: The banner to give
-     * @return 是否成功給予
-     * AI Translated: Whether it was successfully given
+     * @param player The player to give items to
+     * @param banner The banner to give
+     * @return Whether it was successfully given
      */
     public boolean buy(Player player, ItemStack banner) {
         MessageService messageService = BannerMaker.getInstance().getMessageService();
