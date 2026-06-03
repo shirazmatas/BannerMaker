@@ -1,6 +1,6 @@
 package club.kid7.bannermaker.gui;
 
-import club.kid7.bannermaker.AlphabetBanner;
+import club.kid7.bannermaker.banner.AlphabetBanner;
 import club.kid7.bannermaker.BannerMaker;
 import club.kid7.bannermaker.PlayerData;
 import club.kid7.bannermaker.gui.mainmenu.MainMenu;
