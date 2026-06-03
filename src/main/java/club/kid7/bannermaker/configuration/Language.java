@@ -45,14 +45,14 @@ public class Language {
         // Trim
         String normalized = localeName.trim().replace('-', '_');
 
-        // 嘗試直接解析
+        // Try direct parsing
         try {
             locale = LocaleUtils.toLocale(normalized);
             return normalizeLocale(locale);
         } catch (IllegalArgumentException ignored) {
         }
 
-        // 嘗試大小寫修正（語言小寫、國家大寫）
+        // Try case correction (language lowercase, country uppercase)
         Matcher matcher = Pattern.compile("^([a-zA-Z]{2,3})_([a-zA-Z]{2})$").matcher(normalized);
         if (matcher.matches()) {
             String corrected = matcher.group(1).toLowerCase() + "_" + matcher.group(2).toUpperCase();
@@ -62,13 +62,13 @@ public class Language {
             }
         }
 
-        // 所有嘗試失敗，使用預設語言
+        // All attempts failed, use default language
         return DEFAULT_LOCALE;
     }
 
     private static Locale normalizeLocale(Locale locale) {
-        // en（無國家碼）→ en_US（僅對英語進行特殊處理，因為有部分環境會將其解析為 en，而實際上應使用 en_US 作為預設英語）
-        // AI Translated: en (no country code) → en_US (special handling for English only, as some environments parse it as en, while en_US should actually be used as the default English)
+        // en (no country code) -> en_US (special handling for English only,
+        // as some environments parse it as en, while en_US should actually be used as the default English)
         if (locale.getLanguage().equals("en") && locale.getCountry().isEmpty()) {
             return Locale.US; // en_US
         }
@@ -107,9 +107,9 @@ public class Language {
     }
 
     /**
-     * 將 Legacy & 碼轉換為 MiniMessage 標籤。
-     * 例如 &c → <red>、&l → <bold>。
-     * 不影響已有的 MiniMessage 標籤和命名佔位符。
+     * Converts Legacy & codes to MiniMessage tags.
+     * e.g., &c -> <red>, &l -> <bold>.
+     * Does not affect existing MiniMessage tags and named placeholders.
      */
     private static String convertLegacyToMiniMessage(String input) {
         if (input == null || input.isEmpty()) {
