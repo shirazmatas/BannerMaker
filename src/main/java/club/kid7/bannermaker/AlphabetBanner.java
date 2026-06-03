@@ -15,14 +15,11 @@ import java.util.List;
 import java.util.Objects;
 
 /*
- * 無框字母
- * AI Translated: Borderless letters
+ * Borderless letters
  * https://www.youtube.com/watch?v=PncIlxt8TtI
- * 有框字母
- * AI Translated: Bordered letters
+ * Bordered letters
  * https://www.youtube.com/watch?v=jLYvPD_vbZg
- * 數字＆問號＆驚嘆號＆句號
- * AI Translated: Numbers & question marks & exclamation marks & periods
+ * Numbers & question marks & exclamation marks & periods
  * https://www.youtube.com/watch?v=xODU7WWTXYE
  */
 public class AlphabetBanner {
