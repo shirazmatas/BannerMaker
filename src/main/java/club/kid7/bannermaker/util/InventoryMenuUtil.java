@@ -13,11 +13,9 @@ public class InventoryMenuUtil {
             return;
         }
         PlayerData playerData = BannerMaker.getInstance().getPlayerDataMap().get(player);
-        //設定查看旗幟
-        // AI Translated: Set banner to view
+        //Set banner to view
         playerData.setViewInfoBanner(banner);
-        //重置頁數
-        // AI Translated: Reset page number
+        //Reset page number
         playerData.setCurrentRecipePage(1);
         //開啟選單
         // AI Translated: Open menu
