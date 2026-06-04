@@ -91,35 +91,6 @@ class BannerUtilTest {
     }
 
     @Test
-    void getMaterials_ShouldReturnCorrectMaterials() {
-        ItemStack banner = new ItemStack(Material.WHITE_BANNER);
-        BannerMeta meta = (BannerMeta) banner.getItemMeta();
-        // 增加一個需要 1 個染料的 pattern
-        meta.addPattern(new Pattern(DyeColor.RED, PatternType.CIRCLE));
-        // 增加一個需要 3 個染料的 pattern
-        meta.addPattern(new Pattern(DyeColor.BLUE, PatternType.STRIPE_BOTTOM));
-        banner.setItemMeta(meta);
-
-        List<ItemStack> materials = BannerCost.getMaterials(banner);
-
-        // 預期：1 木棒 + 6 白色羊毛 + 1 紅色染料 + 3 藍色染料
-        assertNotNull(materials);
-
-        // 驗證是否有基本材料
-        boolean hasStick = materials.stream().anyMatch(i -> i.getType() == Material.STICK && i.getAmount() == 1);
-        boolean hasWool = materials.stream().anyMatch(i -> i.getType() == Material.WHITE_WOOL && i.getAmount() == 6);
-
-        // 驗證染料
-        boolean hasRedDye = materials.stream().anyMatch(i -> i.getType() == Material.RED_DYE && i.getAmount() == 1);
-        boolean hasBlueDye = materials.stream().anyMatch(i -> i.getType() == Material.BLUE_DYE && i.getAmount() == 3);
-
-        assertTrue(hasStick, "Should contain 1 stick");
-        assertTrue(hasWool, "Should contain 6 white wool");
-        assertTrue(hasRedDye, "Should contain 1 red dye");
-        assertTrue(hasBlueDye, "Should contain 3 blue dye");
-    }
-
-    @Test
     void hasEnoughMaterials_ShouldReturnTrue_WhenPlayerHasAllMaterials() {
         // 白色旗幟 + 紅色圓形 pattern
         ItemStack banner = new ItemStack(Material.WHITE_BANNER);

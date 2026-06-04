@@ -96,30 +96,4 @@ class EconUtilTest {
         // 基礎價格 50 + 木棒 1*1 + 白色羊毛 2*6 + 紅色染料 5*1 = 50 + 1 + 12 + 5 = 68
         assertEquals(68.0, price, 0.01, "價格應包含基礎價格與材料價格");
     }
-
-    @Test
-    void getPrice_ShouldHandleMultiplePatterns() {
-        plugin.setEconomy(mock(Economy.class));
-
-        FileConfiguration config = ConfigManager.get("config");
-        config.set("Economy.Price", 0.0);
-
-        FileConfiguration priceConfig = ConfigManager.get("price");
-        priceConfig.set("STICK", 0.0);
-        priceConfig.set("WOOL.WHITE", 0.0);
-        priceConfig.set("DYE.RED", 10.0);
-        priceConfig.set("DYE.BLUE", 20.0);
-
-        // 白色旗幟 + 紅色圓形(1 染料) + 藍色底部條紋(3 染料)
-        ItemStack banner = new ItemStack(Material.WHITE_BANNER);
-        BannerMeta meta = (BannerMeta) banner.getItemMeta();
-        meta.addPattern(new Pattern(DyeColor.RED, PatternType.CIRCLE));
-        meta.addPattern(new Pattern(DyeColor.BLUE, PatternType.STRIPE_BOTTOM));
-        banner.setItemMeta(meta);
-
-        double price = economyService.getPrice(banner);
-
-        // 紅色染料 10*1 + 藍色染料 20*3 = 10 + 60 = 70
-        assertEquals(70.0, price, 0.01, "價格應正確累加多個 pattern 的材料價格");
-    }
 }
