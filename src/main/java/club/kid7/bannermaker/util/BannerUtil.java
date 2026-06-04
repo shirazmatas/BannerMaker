@@ -258,14 +258,6 @@ public class BannerUtil {
         return true;
     }
 
-    static public boolean isCraftableInServer(ItemStack banner, int maxPatterns){
-        // Only check banners
-        if (!isBanner(banner)) {
-            return false;
-        }
-        int patternCount = ((BannerMeta) Objects.requireNonNull(banner.getItemMeta())).numberOfPatterns();
-        return patternCount <= maxPatterns;
-    }
 
     /**
      * 是否可以在生存模式合成（不超過6個pattern）
@@ -297,13 +289,11 @@ public class BannerUtil {
      * AI Translated: Whether it can be crafted
      */
     static public boolean isCraftable(Player player, ItemStack banner) {
-        //只檢查旗幟
-        // AI Translated: Only check banners
+        //Only check banners
         if (!isBanner(banner)) {
             return false;
         }
-        // 若啟用複雜合成功能，則額外檢查玩家是否擁有對應權限
-        // AI Translated: If complex crafting is enabled, additionally check if the player has the corresponding permission
+        // If complex crafting is enabled, additionally check if the player has the corresponding permission
         if (BannerMaker.getInstance().isEnableComplexBannerCraft()) {
             if (player.hasPermission("bannermaker.getbanner.complex-craft")) {
                 return true;
