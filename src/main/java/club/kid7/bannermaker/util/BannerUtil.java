@@ -297,7 +297,7 @@ public class BannerUtil {
         // 若啟用複雜合成功能，則額外檢查玩家是否擁有對應權限
         // AI Translated: If complex crafting is enabled, additionally check if the player has the corresponding permission
         if (BannerMaker.getInstance().isEnableComplexBannerCraft()) {
-            if (player.hasPermission("BannerMaker.getBanner.complex-craft")) {
+            if (player.hasPermission("bannermaker.getbanner.complex-craft")) {
                 return true;
             }
         }

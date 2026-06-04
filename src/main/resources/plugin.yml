@@ -10,63 +10,63 @@ commands:
     description: BannerMaker
     usage: /<command>
     aliases: [ bm ]
-    permission: BannerMaker.use
+    permission: bannermaker.use
     permission-message: Lacking permission <permission>
 permissions:
-  BannerMaker.admin:
+  bannermaker.admin:
     description: Whole permission of BannerMaker
     default: op
     children:
-      BannerMaker.player: true
-      BannerMaker.getBanner.free: true
-      BannerMaker.reload: true
-  BannerMaker.player:
+      bannermaker.player: true
+      bannermaker.getbanner.free: true
+      bannermaker.reload: true
+  bannermaker.player:
     description: Permissions for normal players
     default: true
     children:
-      BannerMaker.use: true
-      BannerMaker.getBanner: true
-      BannerMaker.hand: true
-      BannerMaker.see: true
-      BannerMaker.view: true
-      BannerMaker.show: true
-  BannerMaker.use:
+      bannermaker.use: true
+      bannermaker.getbanner: true
+      bannermaker.hand: true
+      bannermaker.see: true
+      bannermaker.view: true
+      bannermaker.show: true
+  bannermaker.use:
     description: Permission of using BannerMaker
     default: true
-  BannerMaker.getBanner:
+  bannermaker.getbanner:
     description: Permission to get banners from BannerMaker
     default: op
-  BannerMaker.getBanner.complex-craft:
+  bannermaker.getbanner.complex-craft:
     description: Bypass 6-patterns limit when getting banner (Enabled in config)
     default: op
-  BannerMaker.getBanner.free:
+  bannermaker.getbanner.free:
     description: Bypass fee of get Banner
     default: op
-  BannerMaker.hand:
+  bannermaker.hand:
     description: View banner info of the banner in hand
     default: true
-  BannerMaker.see:
+  bannermaker.see:
     description: View banner info of the banner you're looking at
     default: true
-  BannerMaker.view:
+  bannermaker.view:
     description: View banner info of the banner command
     default: true
-  BannerMaker.show:
+  bannermaker.show:
     description: Show banner info to players
     default: op
     children:
-      BannerMaker.show.nearby: true
-      BannerMaker.show.all: true
-      BannerMaker.show.receive: true
-  BannerMaker.show.nearby:
+      bannermaker.show.nearby: true
+      bannermaker.show.all: true
+      bannermaker.show.receive: true
+  bannermaker.show.nearby:
     description: Show banner info to nearby players
     default: op
-  BannerMaker.show.all:
+  bannermaker.show.all:
     description: Show banner info to all players
     default: op
-  BannerMaker.show.receive:
+  bannermaker.show.receive:
     description: Receive banner info showing messages from other players
     default: true
-  BannerMaker.reload:
+  bannermaker.reload:
     description: Permission to reload all config
     default: op

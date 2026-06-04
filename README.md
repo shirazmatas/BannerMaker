@@ -27,28 +27,28 @@ You don't need to know how to craft. All you need to know is how it will look li
 
 | **Command**    | **Description**                                  | **Permission**       |
 |----------------|--------------------------------------------------|----------------------|
-| `/bm`          | Open GUI                                         | `BannerMaker.use`    |
+| `/bm`          | Open GUI                                         | `bannermaker.use`    |
 | `/bm help`     | Command list                                     |                      |
-| `/bm hand`     | View banner info of the banner in hand           | `BannerMaker.hand`   |
-| `/bm see`      | View banner info of the banner you're looking at | `BannerMaker.see`    |
-| `/bm view ...` | View banner info of the banner command           | `BannerMaker.view`   |
-| `/bm reload`   | Reload config                                    | `BannerMaker.reload` |
+| `/bm hand`     | View banner info of the banner in hand           | `bannermaker.hand`   |
+| `/bm see`      | View banner info of the banner you're looking at | `bannermaker.see`    |
+| `/bm view ...` | View banner info of the banner command           | `bannermaker.view`   |
+| `/bm reload`   | Reload config                                    | `bannermaker.reload` |
 
 ## Major Permission Sets
 
 | **Permission**       | **Description**                | **Default** |
 |----------------------|--------------------------------|-------------|
-| `BannerMaker.player` | Permissions for normal players | True        |
-| `BannerMaker.admin`  | Whole permission               | OP          |
-| `BannerMaker.show`   | Show banner info to players    | OP          |
+| `bannermaker.player` | Permissions for normal players | True        |
+| `bannermaker.admin`  | Whole permission               | OP          |
+| `bannermaker.show`   | Show banner info to players    | OP          |
 
 ## Other Permissions
 
 | **Permission**                        | **Description**                                                 | **Default** |
 |---------------------------------------|-----------------------------------------------------------------|-------------|
-| `BannerMaker.getBanner`               | Get banners from GUI                                            | OP          |
-| `BannerMaker.getBanner.complex-craft` | Bypass 6-patterns limit when getting banner (Enabled in config) | OP          |
-| `BannerMaker.getBanner.free`          | Get banners for free                                            | OP          |
+| `bannermaker.getbanner`               | Get banners from GUI                                            | OP          |
+| `bannermaker.getbanner.complex-craft` | Bypass 6-patterns limit when getting banner (Enabled in config) | OP          |
+| `bannermaker.getbanner.free`          | Get banners for free                                            | OP          |
 
 *All detailed permissions can be found in [plugin.yml](src/main/resources/plugin.yml)*
 

@@ -96,12 +96,12 @@ public class BannerInfoGUI {
         bannerInfoGUI.addElement(buildCloneButton(player, banner,playerData));
 
         // Display banner
-        if (player.hasPermission("BannerMaker.show.nearby") || player.hasPermission("BannerMaker.show.all")) {
+        if (player.hasPermission("bannermaker.show.nearby") || player.hasPermission("bannermaker.show.all")) {
             bannerInfoGUI.addElement(buildShareButton(player, banner));
         }
 
         // Generate link to share
-        if (player.hasPermission("BannerMaker.view")) {
+        if (player.hasPermission("bannermaker.view")) {
             bannerInfoGUI.addElement(buildLinkButton(player, banner));
         }
 
@@ -145,16 +145,16 @@ public class BannerInfoGUI {
 
     private static StaticGuiElement buildShareButton(Player player, ItemStack banner) {
         ItemStack btnShow = new ItemBuilder(Material.BELL).name(tl(NamedTextColor.BLUE, "gui.show-banner")).build();
-        if (player.hasPermission("BannerMaker.show.nearby")) {
+        if (player.hasPermission("bannermaker.show.nearby")) {
             btnShow = new ItemBuilder(btnShow).addLore(Component.text("[", NamedTextColor.YELLOW).append(tl("gui.click.left")).append(Component.text("] ", NamedTextColor.YELLOW)).append(tl(NamedTextColor.GREEN, "gui.show-to-nearby"))).build();
         }
-        if (player.hasPermission("BannerMaker.show.all")) {
+        if (player.hasPermission("bannermaker.show.all")) {
             btnShow = new ItemBuilder(btnShow).addLore(Component.text("[", NamedTextColor.YELLOW).append(tl("gui.click.right")).append(Component.text("] ", NamedTextColor.YELLOW)).append(tl(NamedTextColor.GREEN, "gui.show-to-all"))).build();
         }
         return new StaticGuiElement('r', btnShow, click -> {
-            if (click.getType().isLeftClick() && player.hasPermission("BannerMaker.show.nearby")) {
+            if (click.getType().isLeftClick() && player.hasPermission("bannermaker.show.nearby")) {
                 BannerMaker.getInstance().getBannerService().showToNearby(player, banner, 16);
-            } else if (click.getType().isRightClick() && player.hasPermission("BannerMaker.show.all")) {
+            } else if (click.getType().isRightClick() && player.hasPermission("bannermaker.show.all")) {
                 BannerMaker.getInstance().getBannerService().showToAll(player, banner);
             }
             player.closeInventory();

@@ -52,28 +52,28 @@
 
 | **指令**         | **描述**       | **權限**               |
 |----------------|--------------|----------------------|
-| `/bm`          | 開啟主要介面       | `BannerMaker.use`    |
+| `/bm`          | 開啟主要介面       | `bannermaker.use`    |
 | `/bm help`     | 指令清單         |                      |
-| `/bm hand`     | 檢視手上持有的旗幟的資訊 | `BannerMaker.hand`   |
-| `/bm see`      | 檢視看著的旗幟的資訊   | `BannerMaker.see`    |
-| `/bm view ...` | 檢視指令附帶的旗幟的資訊 | `BannerMaker.view`   |
-| `/bm reload`   | 重新載入設定檔      | `BannerMaker.reload` |
+| `/bm hand`     | 檢視手上持有的旗幟的資訊 | `bannermaker.hand`   |
+| `/bm see`      | 檢視看著的旗幟的資訊   | `bannermaker.see`    |
+| `/bm view ...` | 檢視指令附帶的旗幟的資訊 | `bannermaker.view`   |
+| `/bm reload`   | 重新載入設定檔      | `bannermaker.reload` |
 
 ## 主要權限集合
 
 | **權限**               | **描述**    | **預設值** |
 |----------------------|-----------|---------|
-| `BannerMaker.player` | 一般玩家的權限   | True    |
-| `BannerMaker.admin`  | 完整權限      | OP      |
-| `BannerMaker.show`   | 向其他玩家展示旗幟 | OP      |
+| `bannermaker.player` | 一般玩家的權限   | True    |
+| `bannermaker.admin`  | 完整權限      | OP      |
+| `bannermaker.show`   | 向其他玩家展示旗幟 | OP      |
 
 ## 其他權限
 
 | **Permission**                        | **Description**            | **Default** |
 |---------------------------------------|----------------------------|-------------|
-| `BannerMaker.getBanner`               | 從介面取得旗幟                    | OP          |
-| `BannerMaker.getBanner.complex-craft` | 取得旗幟時，忽略 6 種樣式的限制（於設定檔中啟用） | OP          |
-| `BannerMaker.getBanner.free`          | 免費取得旗幟                     | OP          |
+| `bannermaker.getbanner`               | 從介面取得旗幟                    | OP          |
+| `bannermaker.getbanner.complex-craft` | 取得旗幟時，忽略 6 種樣式的限制（於設定檔中啟用） | OP          |
+| `bannermaker.getbanner.free`          | 免費取得旗幟                     | OP          |
 
 *您可以在 [plugin.yml](src/main/resources/plugin.yml) 中找到所有細部權限*
 

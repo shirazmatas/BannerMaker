@@ -110,7 +110,7 @@ public class BannerService {
         Component msgBannerName = buildBannerMessageComponent(banner);
 
         for (Player p : Bukkit.getOnlinePlayers()) {
-            if (!p.hasPermission("BannerMaker.show.receive") && !p.equals(sender)) {
+            if (!p.hasPermission("bannermaker.show.receive") && !p.equals(sender)) {
                 continue;
             }
             if (!p.getWorld().equals(sender.getWorld())) {
@@ -137,7 +137,7 @@ public class BannerService {
         Component msgBannerName = buildBannerMessageComponent(banner);
 
         for (Player p : Bukkit.getOnlinePlayers()) {
-            if (!p.hasPermission("BannerMaker.show.receive") && !p.equals(sender)) {
+            if (!p.hasPermission("bannermaker.show.receive") && !p.equals(sender)) {
                 continue;
             }
             messageService.send(p, buildShowMessage(sender, msgBannerName));
