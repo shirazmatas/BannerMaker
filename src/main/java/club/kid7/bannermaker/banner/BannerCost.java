@@ -128,8 +128,7 @@ public class BannerCost {
             if (material != null) {
                 acc.addLoomItemOnce(material);
             }
-            // All patterns consume 1 dye except possibly when color is BLACK if it's the base...
-            // But wait, in Loom you ALWAYS need 1 dye.
+            // All patterns consume 1 dye
             acc.add(DyeColorRegistry.getDyeItemStack(color, 1));
         };
     }
@@ -139,45 +138,40 @@ public class BannerCost {
      * key is declared as Object to avoid invokeinterface (see CLAUDE.md for cross-version compatibility pitfalls).
      */
     private static final Map<Object, PatternMaterialContributor> MATERIAL_CONTRIBUTORS = Map.ofEntries(
-        // 1 Dye ── Square corners and circles
+        // 1 Dye ── Everything
         Map.entry(PatternType.SQUARE_BOTTOM_LEFT, dyeOnly(1)),
         Map.entry(PatternType.SQUARE_BOTTOM_RIGHT, dyeOnly(1)),
         Map.entry(PatternType.SQUARE_TOP_LEFT, dyeOnly(1)),
         Map.entry(PatternType.SQUARE_TOP_RIGHT, dyeOnly(1)),
         Map.entry(PatternType.CIRCLE, dyeOnly(1)),
-        // 3 Dyes ── Stripes, Triangles, Diagonals
-        Map.entry(PatternType.STRIPE_BOTTOM, dyeOnly(3)),
-        Map.entry(PatternType.STRIPE_TOP, dyeOnly(3)),
-        Map.entry(PatternType.STRIPE_LEFT, dyeOnly(3)),
-        Map.entry(PatternType.STRIPE_RIGHT, dyeOnly(3)),
-        Map.entry(PatternType.STRIPE_CENTER, dyeOnly(3)),
-        Map.entry(PatternType.STRIPE_MIDDLE, dyeOnly(3)),
-        Map.entry(PatternType.STRIPE_DOWNRIGHT, dyeOnly(3)),
-        Map.entry(PatternType.STRIPE_DOWNLEFT, dyeOnly(3)),
-        Map.entry(PatternType.TRIANGLE_BOTTOM, dyeOnly(3)),
-        Map.entry(PatternType.TRIANGLE_TOP, dyeOnly(3)),
-        Map.entry(PatternType.TRIANGLES_BOTTOM, dyeOnly(3)),
-        Map.entry(PatternType.TRIANGLES_TOP, dyeOnly(3)),
-        Map.entry(PatternType.DIAGONAL_LEFT, dyeOnly(3)),
-        Map.entry(PatternType.DIAGONAL_RIGHT, dyeOnly(3)),
-        Map.entry(PatternType.DIAGONAL_UP_LEFT, dyeOnly(3)),
-        Map.entry(PatternType.DIAGONAL_UP_RIGHT, dyeOnly(3)),
-        // 4 Dyes ── Small stripes, Rhombus, Gradients
-        Map.entry(PatternType.SMALL_STRIPES, dyeOnly(4)),
-        Map.entry(PatternType.RHOMBUS, dyeOnly(4)),
-        Map.entry(PatternType.GRADIENT, dyeOnly(4)),
-        Map.entry(PatternType.GRADIENT_UP, dyeOnly(4)),
-        // 5 Dyes ── Crosses
-        Map.entry(PatternType.CROSS, dyeOnly(5)),
-        Map.entry(PatternType.STRAIGHT_CROSS, dyeOnly(5)),
-        // 6 Dyes ── Half sides
-        Map.entry(PatternType.HALF_VERTICAL, dyeOnly(6)),
-        Map.entry(PatternType.HALF_HORIZONTAL, dyeOnly(6)),
-        Map.entry(PatternType.HALF_VERTICAL_RIGHT, dyeOnly(6)),
-        Map.entry(PatternType.HALF_HORIZONTAL_BOTTOM, dyeOnly(6)),
-        // 8 Dyes ── Border
-        Map.entry(PatternType.BORDER, dyeOnly(8)),
-        // Special item + Dye
+        Map.entry(PatternType.STRIPE_BOTTOM, dyeOnly(1)),
+        Map.entry(PatternType.STRIPE_TOP, dyeOnly(1)),
+        Map.entry(PatternType.STRIPE_LEFT, dyeOnly(1)),
+        Map.entry(PatternType.STRIPE_RIGHT, dyeOnly(1)),
+        Map.entry(PatternType.STRIPE_CENTER, dyeOnly(1)),
+        Map.entry(PatternType.STRIPE_MIDDLE, dyeOnly(1)),
+        Map.entry(PatternType.STRIPE_DOWNRIGHT, dyeOnly(1)),
+        Map.entry(PatternType.STRIPE_DOWNLEFT, dyeOnly(1)),
+        Map.entry(PatternType.TRIANGLE_BOTTOM, dyeOnly(1)),
+        Map.entry(PatternType.TRIANGLE_TOP, dyeOnly(1)),
+        Map.entry(PatternType.TRIANGLES_BOTTOM, dyeOnly(1)),
+        Map.entry(PatternType.TRIANGLES_TOP, dyeOnly(1)),
+        Map.entry(PatternType.DIAGONAL_LEFT, dyeOnly(1)),
+        Map.entry(PatternType.DIAGONAL_RIGHT, dyeOnly(1)),
+        Map.entry(PatternType.DIAGONAL_UP_LEFT, dyeOnly(1)),
+        Map.entry(PatternType.DIAGONAL_UP_RIGHT, dyeOnly(1)),
+        Map.entry(PatternType.SMALL_STRIPES, dyeOnly(1)),
+        Map.entry(PatternType.RHOMBUS, dyeOnly(1)),
+        Map.entry(PatternType.GRADIENT, dyeOnly(1)),
+        Map.entry(PatternType.GRADIENT_UP, dyeOnly(1)),
+        Map.entry(PatternType.CROSS, dyeOnly(1)),
+        Map.entry(PatternType.STRAIGHT_CROSS, dyeOnly(1)),
+        Map.entry(PatternType.HALF_VERTICAL, dyeOnly(1)),
+        Map.entry(PatternType.HALF_HORIZONTAL, dyeOnly(1)),
+        Map.entry(PatternType.HALF_VERTICAL_RIGHT, dyeOnly(1)),
+        Map.entry(PatternType.HALF_HORIZONTAL_BOTTOM, dyeOnly(1)),
+        Map.entry(PatternType.BORDER, dyeOnly(1)),
+        // Special item + Dye yo someone clean this shit up
         Map.entry(PatternType.CURLY_BORDER, loomPattern("BORDURE_BANNER_PATTERN")),
         Map.entry(PatternType.CREEPER, loomPattern("CREEPER_BANNER_PATTERN")),
         Map.entry(PatternType.SKULL, loomPattern("SKULL_BANNER_PATTERN")),
