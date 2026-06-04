@@ -258,6 +258,15 @@ public class BannerUtil {
         return true;
     }
 
+    static public boolean isCraftableInServer(ItemStack banner, int maxPatterns){
+        // Only check banners
+        if (!isBanner(banner)) {
+            return false;
+        }
+        int patternCount = ((BannerMeta) Objects.requireNonNull(banner.getItemMeta())).numberOfPatterns();
+        return patternCount <= maxPatterns;
+    }
+
     /**
      * 是否可以在生存模式合成（不超過6個pattern）
      * AI Translated: Whether it can be crafted in survival mode (no more than 6 patterns)
@@ -268,8 +277,7 @@ public class BannerUtil {
      * AI Translated: Whether it can be crafted
      */
     static public boolean isCraftableInSurvival(ItemStack banner) {
-        //只檢查旗幟
-        // AI Translated: Only check banners
+        //Only check banners
         if (!isBanner(banner)) {
             return false;
         }
