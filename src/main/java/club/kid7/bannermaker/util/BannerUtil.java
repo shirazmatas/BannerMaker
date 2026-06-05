@@ -4,23 +4,17 @@ import club.kid7.bannermaker.BannerMaker;
 import club.kid7.bannermaker.registry.DyeColorRegistry;
 import com.cryptomorin.xseries.XMaterial;
 import com.cryptomorin.xseries.XTag;
-import com.google.common.collect.Maps;
-import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.Registry;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -137,7 +131,7 @@ public class BannerUtil {
     }
 
     /**
-     * Get the banner name, or try to get the KEY if there is no name
+     * Get the banner name or try to get the KEY if there is no name
      *
      * @param banner The banner to check
      * @return String
