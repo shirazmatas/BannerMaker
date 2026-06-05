@@ -83,158 +83,12 @@ public class BannerUtil {
         return itemStack.getType().toString().endsWith("_BANNER_PATTERN");
     }
 
-    /**
-     * Get the banner material list
-     *
-     * @param banner The banner to get the material list for
-     * @return List<ItemStack>
-     */
-    static public List<ItemStack> getMaterials(ItemStack banner) {
-        List<ItemStack> materialList = new ArrayList<>();
-        //Only check banners
-        if (!isBanner(banner)) {
-            return materialList;
-        }
-        //Basic materials
-        //Stick
-        ItemStack stick = new ItemStack(Material.STICK, 1);
-        materialList.add(stick);
-        //Color
-        DyeColor baseColor = DyeColorRegistry.getDyeColor(banner.getType());
-
-        //Wool
-        ItemStack wool = new ItemStack(DyeColorRegistry.getWoolMaterial(baseColor), 6);
-        materialList.add(wool);
-
-        //Pattern materials
-        Inventory materialInventory = Bukkit.createInventory(null, 54);
-        BannerMeta bm = (BannerMeta) Objects.requireNonNull(banner.getItemMeta());
-
-        //Calculate Pattern by Pattern
-        for (Pattern pattern : bm.getPatterns()) {
-            //Required dye
-            DyeColor dyeColor = pattern.getColor();
-            PatternType patternType = pattern.getPattern();
-            if (patternType.equals(PatternType.SQUARE_BOTTOM_LEFT)
-                || patternType.equals(PatternType.SQUARE_BOTTOM_RIGHT)
-                || patternType.equals(PatternType.SQUARE_TOP_LEFT)
-                || patternType.equals(PatternType.SQUARE_TOP_RIGHT)
-                || patternType.equals(PatternType.CIRCLE)) {
-                materialInventory.addItem(DyeColorRegistry.getDyeItemStack(dyeColor, 1));
-            } else if (patternType.equals(PatternType.STRIPE_BOTTOM)
-                || patternType.equals(PatternType.STRIPE_TOP)
-                || patternType.equals(PatternType.STRIPE_LEFT)
-                || patternType.equals(PatternType.STRIPE_RIGHT)
-                || patternType.equals(PatternType.STRIPE_CENTER)
-                || patternType.equals(PatternType.STRIPE_MIDDLE)
-                || patternType.equals(PatternType.STRIPE_DOWNRIGHT)
-                || patternType.equals(PatternType.STRIPE_DOWNLEFT)
-                || patternType.equals(PatternType.TRIANGLE_BOTTOM)
-                || patternType.equals(PatternType.TRIANGLE_TOP)
-                || patternType.equals(PatternType.TRIANGLES_BOTTOM)
-                || patternType.equals(PatternType.TRIANGLES_TOP)
-                || patternType.equals(PatternType.DIAGONAL_LEFT)
-                || patternType.equals(PatternType.DIAGONAL_RIGHT)
-                || patternType.equals(PatternType.DIAGONAL_UP_LEFT)
-                || patternType.equals(PatternType.DIAGONAL_UP_RIGHT)) {
-                materialInventory.addItem(DyeColorRegistry.getDyeItemStack(dyeColor, 3));
-            } else if (patternType.equals(PatternType.SMALL_STRIPES)
-                || patternType.equals(PatternType.RHOMBUS)
-                || patternType.equals(PatternType.GRADIENT)
-                || patternType.equals(PatternType.GRADIENT_UP)) {
-                materialInventory.addItem(DyeColorRegistry.getDyeItemStack(dyeColor, 4));
-            } else if (patternType.equals(PatternType.CROSS)
-                || patternType.equals(PatternType.STRAIGHT_CROSS)) {
-                materialInventory.addItem(DyeColorRegistry.getDyeItemStack(dyeColor, 5));
-            } else if (patternType.equals(PatternType.HALF_VERTICAL)
-                || patternType.equals(PatternType.HALF_HORIZONTAL)
-                || patternType.equals(PatternType.HALF_VERTICAL_RIGHT)
-                || patternType.equals(PatternType.HALF_HORIZONTAL_BOTTOM)) {
-                materialInventory.addItem(DyeColorRegistry.getDyeItemStack(dyeColor, 6));
-            } else if (patternType.equals(PatternType.BORDER)) {
-                materialInventory.addItem(DyeColorRegistry.getDyeItemStack(dyeColor, 8));
-            } else if (patternType.equals(PatternType.CURLY_BORDER)) {
-                materialInventory.addItem(new ItemStack(Material.VINE));
-                if (!pattern.getColor().equals(DyeColor.BLACK)) {
-                    materialInventory.addItem(DyeColorRegistry.getDyeItemStack(dyeColor, 1));
-                }
-            } else if (patternType.equals(PatternType.CREEPER)) {
-                materialInventory.addItem(new ItemStack(Material.CREEPER_HEAD));
-                if (!pattern.getColor().equals(DyeColor.BLACK)) {
-                    materialInventory.addItem(DyeColorRegistry.getDyeItemStack(dyeColor, 1));
-                }
-            } else if (patternType.equals(PatternType.BRICKS)) {
-                materialInventory.addItem(new ItemStack(Material.BRICK));
-                if (!pattern.getColor().equals(DyeColor.BLACK)) {
-                    materialInventory.addItem(DyeColorRegistry.getDyeItemStack(dyeColor, 1));
-                }
-            } else if (patternType.equals(PatternType.SKULL)) {
-                materialInventory.addItem(new ItemStack(Material.WITHER_SKELETON_SKULL));
-                if (!pattern.getColor().equals(DyeColor.BLACK)) {
-                    materialInventory.addItem(DyeColorRegistry.getDyeItemStack(dyeColor, 1));
-                }
-            } else if (patternType.equals(PatternType.FLOWER)) {
-                materialInventory.addItem(new ItemStack(Material.OXEYE_DAISY));
-                if (!pattern.getColor().equals(DyeColor.BLACK)) {
-                    materialInventory.addItem(DyeColorRegistry.getDyeItemStack(dyeColor, 1));
-                }
-            } else if (patternType.equals(PatternType.MOJANG)) {
-                materialInventory.addItem(new ItemStack(Material.ENCHANTED_GOLDEN_APPLE));
-                if (!pattern.getColor().equals(DyeColor.BLACK)) {
-                    materialInventory.addItem(DyeColorRegistry.getDyeItemStack(dyeColor, 1));
-                }
-            } else if (patternType.equals(PatternType.PIGLIN)) { // Pattern materials are not consumed, at most one will be needed
-                // TODO: Should be moved to the back to be processed together
-                if (!materialInventory.contains(Material.PIGLIN_BANNER_PATTERN)) {
-                    materialInventory.addItem(new ItemStack(Material.PIGLIN_BANNER_PATTERN));
-                }
-                materialInventory.addItem(DyeColorRegistry.getDyeItemStack(dyeColor, 1));
-            } else if (patternType.equals(PatternType.GLOBE)) { // Pattern materials are not consumed, at most one will be needed
-                // TODO: Should be moved to the back to be processed together
-                if (!materialInventory.contains(Material.GLOBE_BANNER_PATTERN)) {
-                    materialInventory.addItem(new ItemStack(Material.GLOBE_BANNER_PATTERN));
-                }
-                materialInventory.addItem(DyeColorRegistry.getDyeItemStack(dyeColor, 1));
-            } else if (patternType.equals(PatternType.FLOW)) { // Pattern materials are not consumed, at most one will be needed
-                // TODO: Should be moved to the back to be processed together
-                if (!materialInventory.contains(Material.FLOW_BANNER_PATTERN)) {
-                    materialInventory.addItem(new ItemStack(Material.FLOW_BANNER_PATTERN));
-                }
-                materialInventory.addItem(DyeColorRegistry.getDyeItemStack(dyeColor, 1));
-            } else if (patternType.equals(PatternType.GUSTER)) { // Pattern materials are not consumed, at most one will be needed
-                // TODO: Should be moved to the back to be processed together
-                if (!materialInventory.contains(Material.GUSTER_BANNER_PATTERN)) {
-                    materialInventory.addItem(new ItemStack(Material.GUSTER_BANNER_PATTERN));
-                }
-                materialInventory.addItem(DyeColorRegistry.getDyeItemStack(dyeColor, 1));
-            }
-        }
-        // Add to temporary list
-        List<ItemStack> patternMaterials = new ArrayList<>();
-        for (ItemStack item : materialInventory.getContents()) {
-            if (item != null && !item.getType().isAir()) {
-                patternMaterials.add(item);
-            }
-        }
-        //重新排序
-        // AI Translated: Re-sort
-        InventoryUtil.sort(patternMaterials);
-        //將材料加到清單中
-        // AI Translated: Add materials to the list
-        materialList.addAll(patternMaterials);
-
-        return materialList;
-    }
-
 
     /**
-     * 是否可以在生存模式合成（不超過6個pattern）
-     * AI Translated: Whether it can be crafted in survival mode (no more than 6 patterns)
+     * Whether it can be crafted in survival mode (no more than 6 patterns)
      *
-     * @param banner 旗幟
-     * AI Translated: Banner
-     * @return 是否可以合成
-     * AI Translated: Whether it can be crafted
+     * @param banner Banner
+     * @return Whether it can be crafted
      */
     static public boolean isCraftableInSurvival(ItemStack banner) {
         //Only check banners
@@ -246,15 +100,11 @@ public class BannerUtil {
     }
 
     /**
-     * 是否可以合成
-     * AI Translated: Whether it can be crafted
+     * Whether it can be crafted
      *
-     * @param player 玩家
-     * AI Translated: Player
-     * @param banner 旗幟
-     * AI Translated: Banner
-     * @return 是否可以合成
-     * AI Translated: Whether it can be crafted
+     * @param player Player
+     * @param banner Banner
+     * @return Whether it can be crafted
      */
     static public boolean isCraftable(Player player, ItemStack banner) {
         //Only check banners
@@ -271,11 +121,9 @@ public class BannerUtil {
     }
 
     /**
-     * 取得旗幟在玩家存檔中的Key
-     * AI Translated: Get the banner's key in the player's archive
+     * Get the banner's key in the player's archive
      *
-     * @param banner 欲檢查之旗幟
-     * AI Translated: The banner to check
+     * @param banner The banner to check
      * @return String
      */
     static public String getKey(ItemStack banner) {
@@ -289,11 +137,9 @@ public class BannerUtil {
     }
 
     /**
-     * 取得旗幟名稱，若無名稱則嘗試取得KEY
-     * AI Translated: Get the banner name, or try to get the KEY if there is no name
+     * Get the banner name, or try to get the KEY if there is no name
      *
-     * @param banner 欲檢查之旗幟
-     * AI Translated: The banner to check
+     * @param banner The banner to check
      * @return String
      */
     static public String getName(ItemStack banner) {

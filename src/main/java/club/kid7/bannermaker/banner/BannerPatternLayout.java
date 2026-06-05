@@ -145,14 +145,14 @@ public class BannerPatternLayout {
         Map.entry(PatternType.HALF_HORIZONTAL_BOTTOM, bannerAndDyes(1, 3, 4, 5, 6, 7, 8)),
         Map.entry(PatternType.GRADIENT, bannerAndDyes(1, 0, 2, 4, 7)),
         Map.entry(PatternType.GRADIENT_UP, bannerAndDyes(7, 1, 4, 6, 8)),
-        // 特殊物品 + 條件染料
+        //
         Map.entry(PatternType.CURLY_BORDER, specialItem(Material.VINE)),
         Map.entry(PatternType.CREEPER, specialItem(Material.CREEPER_HEAD)),
         Map.entry(PatternType.SKULL, specialItem(Material.WITHER_SKELETON_SKULL)),
         Map.entry(PatternType.FLOWER, specialItem(Material.OXEYE_DAISY)),
         Map.entry(PatternType.MOJANG, specialItem(Material.ENCHANTED_GOLDEN_APPLE)),
         Map.entry(PatternType.BRICKS, bricksRecipeContributor()),
-        // Loom 旗幟圖形物品
+        //
         Map.entry(PatternType.PIGLIN, loomPatternItem(Material.PIGLIN_BANNER_PATTERN)),
         Map.entry(PatternType.GLOBE, loomPatternItem(Material.GLOBE_BANNER_PATTERN)),
         Map.entry(PatternType.FLOW, loomPatternItem(Material.FLOW_BANNER_PATTERN)),
