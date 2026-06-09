@@ -14,7 +14,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -154,7 +153,7 @@ public class BannerMaker extends JavaPlugin {
         econ = null;
         // Check settings
         FileConfiguration config = ConfigManager.get("config");
-        // If economy is not enabled
+        // If the economy is not enabled
         if (!config.getBoolean("Economy.Enable", false)) {
             return false;
         }
