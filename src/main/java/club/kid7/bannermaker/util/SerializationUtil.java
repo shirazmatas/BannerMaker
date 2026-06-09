@@ -27,7 +27,7 @@ public class SerializationUtil {
     }
 
     /**
-     * Gets one object from Base64 string.
+     * Gets one object from a Base64 string.
      *
      * @param data Base64 string to convert to object.
      * @return object created from the Base64 string.
