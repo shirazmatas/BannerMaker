@@ -77,22 +77,6 @@ public class BannerUtil {
         return itemStack.getType().toString().endsWith("_BANNER_PATTERN");
     }
 
-
-    /**
-     * Whether it can be crafted in survival mode (no more than 6 patterns)
-     *
-     * @param banner Banner
-     * @return Whether it can be crafted
-     */
-    static public boolean isCraftableInSurvival(ItemStack banner) {
-        //Only check banners
-        if (!isBanner(banner)) {
-            return false;
-        }
-        int patternCount = ((BannerMeta) Objects.requireNonNull(banner.getItemMeta())).numberOfPatterns();
-        return patternCount <= 6;
-    }
-
     /**
      * Whether it can be crafted
      *
@@ -105,13 +89,16 @@ public class BannerUtil {
         if (!isBanner(banner)) {
             return false;
         }
+        int patternCount = ((BannerMeta) Objects.requireNonNull(banner.getItemMeta())).numberOfPatterns();
+
         // If complex crafting is enabled, additionally check if the player has the corresponding permission
         if (BannerMaker.getInstance().isEnableComplexBannerCraft()) {
             if (player.hasPermission("bannermaker.getbanner.complex-craft")) {
-                return true;
+                return patternCount <= 12;
             }
         }
-        return isCraftableInSurvival(banner);
+
+        return patternCount <= 6;
     }
 
     /**

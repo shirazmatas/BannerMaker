@@ -69,28 +69,6 @@ class BannerUtilTest {
     }
 
     @Test
-    void isCraftableInSurvival_ShouldReturnTrueForFewPatterns() {
-        ItemStack banner = new ItemStack(Material.WHITE_BANNER);
-        BannerMeta meta = (BannerMeta) banner.getItemMeta();
-        meta.addPattern(new Pattern(DyeColor.BLACK, PatternType.STRIPE_BOTTOM));
-        banner.setItemMeta(meta);
-
-        assertTrue(BannerUtil.isCraftableInSurvival(banner));
-    }
-
-    @Test
-    void isCraftableInSurvival_ShouldReturnFalseForManyPatterns() {
-        ItemStack banner = new ItemStack(Material.WHITE_BANNER);
-        BannerMeta meta = (BannerMeta) banner.getItemMeta();
-        for (int i = 0; i < 7; i++) {
-            meta.addPattern(new Pattern(DyeColor.BLACK, PatternType.STRIPE_BOTTOM));
-        }
-        banner.setItemMeta(meta);
-
-        assertFalse(BannerUtil.isCraftableInSurvival(banner));
-    }
-
-    @Test
     void hasEnoughMaterials_ShouldReturnTrue_WhenPlayerHasAllMaterials() {
         // 白色旗幟 + 紅色圓形 pattern
         ItemStack banner = new ItemStack(Material.WHITE_BANNER);

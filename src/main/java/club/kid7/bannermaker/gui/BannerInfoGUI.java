@@ -65,7 +65,7 @@ public class BannerInfoGUI {
         bannerInfoGUI.addElement(new StaticGuiElement('b',banner));
 
         // Slot 1 (1,0): Number of patterns
-        bannerInfoGUI.addElement(buildPatternCount(banner));
+        bannerInfoGUI.addElement(buildPatternCount(player, banner));
 
         //  Slot 2 (2,0): Whether materials are sufficient (if craftable)
         if (BannerUtil.isCraftable(player, banner)) {
@@ -219,7 +219,7 @@ public class BannerInfoGUI {
         return new StaticGuiElement('w', enoughMaterials);
     }
 
-    private static StaticGuiElement buildPatternCount(ItemStack banner) {
+    private static StaticGuiElement buildPatternCount(Player player, ItemStack banner) {
         int patternCount = ((BannerMeta) Objects.requireNonNull(banner.getItemMeta())).numberOfPatterns();
         Component patternCountComp;
         if (patternCount > 0) {
@@ -228,7 +228,7 @@ public class BannerInfoGUI {
             patternCountComp = tl("gui.no-patterns");
         }
         ItemStack signPatternCount;
-        if (BannerUtil.isCraftableInSurvival(banner)) {
+        if (BannerUtil.isCraftable(player, banner)) {
             signPatternCount = new ItemBuilder(Material.OAK_SIGN).name(Component.empty().color(NamedTextColor.GREEN).append(patternCountComp)).build();
         } else {
             signPatternCount = new ItemBuilder(Material.OAK_SIGN)
