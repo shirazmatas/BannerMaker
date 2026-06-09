@@ -16,6 +16,7 @@ import de.themoep.inventorygui.StaticGuiElement;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -85,7 +86,7 @@ public class BannerInfoGUI {
 
         // Get banner
         if (player.hasPermission("bannermaker.getbanner")) {
-            if (player.hasPermission("bannermaker.getbanner.free")) {
+            if (player.hasPermission("bannermaker.getbanner.free") || player.getGameMode() == GameMode.CREATIVE) {
                 bannerInfoGUI.addElement(buildFreeButton(player, banner, messageService));
             } else {
                 bannerInfoGUI.addElement(buildCraftButton(player, banner, messageService));
