@@ -1,0 +1,75 @@
+# English(Svengelska)
+# For BannerMaker v2.1.0
+# Contributor(s): Shirazmatas
+general:
+  prefix: '&6[&aBannerMaker&6]&r '
+  reload: Relåad konfig
+  no-money: Not enough moni
+  money-transaction: Juse <amont> to gett baner. Nov ju hav <baläns>
+  economy-not-supported: 'Errår: Ekonomi not supported'
+  economy-transaction-error: 'Errår: <message>'
+  economy-enabled: '&aVolt dependensy found! Enabel ekonomi supported'
+  economy-disabled: '&cDisabel ekonomi supported'
+  show-banner-message: '&e<sänder>&7 shovs ju de baner &f<baner>&8 (Klick to vju)'
+  share-click-text: '[Klick her to koppy kommand to klippbord]'
+  share-hover-text: koppy kommand to klippbord
+io:
+  save-failed: Sejv fejled.
+  save-success: Sejv suckses.
+  remove-banner: Remov baner &r#<key>
+command:
+  not-banner-hand: ajtem in hand is nåt a baner.
+  not-banner-see: Block jur loking ät is nåt a baner.
+  invalid-banner-string: '&cInvalid baner sträng'
+  description:
+    default: Shov meny of BanerMaker
+    help: Shov hälp mässage
+    reload: relåad all konfig
+    see: Shov baner info of de baner jur loking ät
+    hand: shov baner info of de baner in hand
+    view: vju baner info of de baner sträng
+config:
+  add-setting: Add <kount> ny sätings
+gui:
+  title:
+    prefix: '&4[BM]&r '
+    main-menu: Män meny
+    create-banner: Krejt Baner
+    alphabet-and-number: 'Alfabet & Nummer'
+    banner-info: Baner info
+  prev-page: Prev Pejch
+  next-page: Näxt Pejch
+  create-banner: Krejt Baner
+  uncraftable-warning: Annkraftabel Varning
+  uncraftable: Annkraftabel
+  more-than-6-patterns: Mår dän 6 paterns.
+  more-patterns: Mår paterns
+  back: Bak
+  create: Krejt
+  delete: DELIT
+  remove-last-pattern: Remov last patern
+  banner-info: Baner info
+  pattern-s: patern(s)
+  no-patterns: No paterns
+  craft-recipe: Kraft Rese-pi
+  get-this-banner: Gett dis baner
+  get-banner: Gett baner &r#<nejm>
+  get-banner-for-free: Gett baner får fri
+  buy-banner-in-price: Baj in <prajs>
+  get-banner-by-craft: Kraft
+  clone-and-edit: 'Klon & Edit'
+  alphabet-and-number: 'Alfabet & Nummer'
+  toggle-border: Toggla bårder
+  materials:
+    enough: Mattereals änoff
+    not-enough: Mattereals nåt änoff
+  click:
+    left: Läft klick
+    right: Rajt klick
+  selected-pattern-color: Sälekted patern kolor
+  toggle-preview-mode: Toggla prevju mod
+  show-banner: Shov baner to plejers
+  show-to-nearby: Shov to nerbaj plejers
+  show-to-all: Shov to al plejers
+  get-share-command: Gett kär kommand
+  recipe-page: '(<pejch>/<total>)'
