@@ -13,12 +13,11 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockbukkit.mockbukkit.MockBukkit;
 import org.mockbukkit.mockbukkit.ServerMock;
 import org.mockbukkit.mockbukkit.entity.PlayerMock;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -137,7 +136,7 @@ class BannerUtilTest {
         assertFalse(inv.containsAtLeast(new ItemStack(Material.WHITE_WOOL), 6), "羊毛應被消耗");
         assertFalse(inv.containsAtLeast(new ItemStack(Material.RED_DYE), 1), "染料應被消耗");
         // 玩家應獲得旗幟
-        assertTrue(inv.containsAtLeast(new ItemStack(Material.WHITE_BANNER), 1), "玩家應獲得旗幟");
+        assertTrue(inv.containsAtLeast(banner, 1), "玩家應獲得旗幟");
     }
 
     @Test
@@ -167,7 +166,7 @@ class BannerUtilTest {
         // 旗幟圖形不應被消耗
         assertTrue(inv.containsAtLeast(new ItemStack(Material.PIGLIN_BANNER_PATTERN), 1), "旗幟圖形不應被消耗");
         // 玩家應獲得旗幟
-        assertTrue(inv.containsAtLeast(new ItemStack(Material.WHITE_BANNER), 1), "玩家應獲得旗幟");
+        assertTrue(inv.containsAtLeast(banner, 1), "玩家應獲得旗幟");
     }
 
     @Test
