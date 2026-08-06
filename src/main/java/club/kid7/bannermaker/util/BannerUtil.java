@@ -4,8 +4,11 @@ import club.kid7.bannermaker.BannerMaker;
 import club.kid7.bannermaker.registry.DyeColorRegistry;
 import com.cryptomorin.xseries.XMaterial;
 import com.cryptomorin.xseries.XTag;
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
@@ -20,8 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
-
 
 public class BannerUtil {
     /**
@@ -145,11 +146,19 @@ public class BannerUtil {
         return "";
     }
 
+    /**
+     * Gets a list of all banner pattern types currently supported by the server (excluding BASE).
+     * The results are sorted by namespaced key for use in GUI display and selection.
+     *
+     * @return List of available PatternTypes
+     */
     public static List<PatternType> getPatternTypeList() {
-        return Registry.BANNER_PATTERN.stream()
-            .sorted(Comparator.comparing(p -> p.getKey().toString()))
-            .filter(pattern -> !pattern.getKey().getKey().equals("base"))
-            .collect(Collectors.toList());
+        final Registry<PatternType> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.BANNER_PATTERN);
+
+        return registry.stream()
+            .sorted(Comparator.comparing(p -> registry.getKeyOrThrow(p).asMinimalString()))
+            .filter(pattern -> !registry.getKeyOrThrow(pattern).asMinimalString().equals("base"))
+            .toList();
     }
 
 
@@ -165,10 +174,17 @@ public class BannerUtil {
 
         BannerMeta bm = (BannerMeta) Objects.requireNonNull(banner.getItemMeta());
 
+        final Registry<PatternType> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.BANNER_PATTERN);
+
         for (Pattern pattern : bm.getPatterns()) {
+            final NamespacedKey patternKey = registry.getKey(pattern.getPattern());
+            if (patternKey == null) {
+                return null; // can't serialize inline patterns
+            }
+
             dataStringBuilder
                 .append(";")
-                .append(pattern.getPattern().getIdentifier())
+                .append(patternKey.asMinimalString())
                 .append(":")
                 .append(DyeColorRegistry.getValue(pattern.getColor()));
         }
@@ -186,9 +202,16 @@ public class BannerUtil {
 
             BannerMeta bm = (BannerMeta) Objects.requireNonNull(banner.getItemMeta());
 
+            final Registry<PatternType> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.BANNER_PATTERN);
+
             for (int i = 1; i < dataArray.length; i++) {
                 String[] patternData = dataArray[i].split(":");
-                PatternType patternType = PatternType.getByIdentifier(patternData[0]);
+                final NamespacedKey patternTypeKey = NamespacedKey.fromString(patternData[0]);
+                if (patternTypeKey == null) {
+                    continue;
+                }
+
+                PatternType patternType = registry.get(patternTypeKey);
                 DyeColor patternColor = DyeColorRegistry.getDyeColor(Integer.parseInt(patternData[1]));
                 Pattern pattern = new Pattern(patternColor, Objects.requireNonNull(patternType));
                 bm.addPattern(pattern);

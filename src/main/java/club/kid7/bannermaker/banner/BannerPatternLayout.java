@@ -5,7 +5,6 @@ import club.kid7.bannermaker.util.BannerUtil;
 import com.google.common.collect.Maps;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
-import org.bukkit.Registry;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.inventory.ItemStack;
@@ -13,12 +12,10 @@ import org.bukkit.inventory.meta.BannerMeta;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * Banner Pattern Layout: Responsible for generating 3x3 recipe grids for GUI display,
@@ -158,19 +155,6 @@ public class BannerPatternLayout {
         Map.entry(PatternType.FLOW, loomPatternItem(Material.FLOW_BANNER_PATTERN)),
         Map.entry(PatternType.GUSTER, loomPatternItem(Material.GUSTER_BANNER_PATTERN))
     );
-
-    /**
-     * Gets a list of all banner pattern types currently supported by the server (excluding BASE).
-     * The results are sorted by namespaced key for use in GUI display and selection.
-     *
-     * @return List of available PatternTypes
-     */
-    public static List<PatternType> getPatternTypeList() {
-        return Registry.BANNER_PATTERN.stream()
-            .sorted(Comparator.comparing(p -> p.getKey().toString()))
-            .filter(pattern -> !pattern.getKey().getKey().equals("base"))
-            .collect(Collectors.toList());
-    }
 
     /**
      * Determines if the recipe is a loom recipe.

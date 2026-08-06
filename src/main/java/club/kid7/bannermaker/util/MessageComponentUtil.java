@@ -1,6 +1,5 @@
 package club.kid7.bannermaker.util;
 
-import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
 import net.kyori.adventure.text.event.HoverEvent;
@@ -15,7 +14,7 @@ public class MessageComponentUtil {
     // 透過物品的本地化鍵 (translation key) 來創建一個可翻譯的文本組件
     // AI Translated: Create a translatable text component through the item's localization key (translation key)
     public static TranslatableComponent getTranslatableComponent(ItemStack itemStack) {
-        return Component.translatable(itemStack.getTranslationKey());
+        return Component.translatable(itemStack.translationKey());
     }
 
     // 獲取物品的懸停事件
@@ -25,15 +24,6 @@ public class MessageComponentUtil {
     // TODO: 解決 BukkitAdapter 依賴問題後，恢復完整的 NBT 支援。
     // AI Translated: TODO: After resolving the BukkitAdapter dependency issue, restore complete NBT support.
     public static HoverEvent<HoverEvent.ShowItem> getHoverEventItem(ItemStack itemStack) {
-        // 手動構建 Key (NamespacedKey -> Adventure Key)
-        // AI Translated: Manually construct Key (NamespacedKey -> Adventure Key)
-        Key key = Key.key(itemStack.getType().getKey().toString());
-        // 獲取數量
-        // AI Translated: Get amount
-        int amount = itemStack.getAmount();
-
-        // 返回 HoverEvent 物件
-        // AI Translated: Return HoverEvent object
-        return HoverEvent.showItem(HoverEvent.ShowItem.of(key, amount));
+        return itemStack.asHoverEvent();
     }
 }

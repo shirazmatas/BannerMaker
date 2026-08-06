@@ -4,7 +4,11 @@ import club.kid7.bannermaker.configuration.ConfigManager;
 import club.kid7.bannermaker.registry.DyeColorRegistry;
 import club.kid7.bannermaker.util.BannerUtil;
 import club.kid7.bannermaker.util.PersistentDataUtil;
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
 import org.bukkit.DyeColor;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -42,8 +46,10 @@ public class BannerRepository {
         // AI Translated: Save
         config.set(key + ".color", Objects.requireNonNull(DyeColorRegistry.getDyeColor(banner.getType())).toString());
         List<String> patternList = new ArrayList<>();
+
+        final Registry<PatternType> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.BANNER_PATTERN);
         for (Pattern pattern : bm.getPatterns()) {
-            patternList.add(pattern.getPattern().getIdentifier() + ":" + pattern.getColor());
+            patternList.add(registry.getKeyOrThrow(pattern.getPattern()).asMinimalString() + "," + pattern.getColor());
         }
         if (!patternList.isEmpty()) {
             config.set(key + ".patterns", patternList);
@@ -121,10 +127,15 @@ public class BannerRepository {
             // AI Translated: Add Patterns
             if (config.contains(key + ".patterns")) {
                 List<String> patternsList = config.getStringList(key + ".patterns");
+                final Registry<PatternType> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.BANNER_PATTERN);
+
                 for (String str : patternsList) {
-                    String strPattern = str.split(":")[0];
-                    String strColor = str.split(":")[1];
-                    Pattern pattern = new Pattern(DyeColor.valueOf(strColor), Objects.requireNonNull(PatternType.getByIdentifier(strPattern)));
+                    final String[] split = str.split(",");
+                    String strPattern = split[0];
+                    String strColor = split[1];
+
+                    final PatternType patternType = registry.getOrThrow(Objects.requireNonNull(NamespacedKey.fromString(strPattern), "pattern type key"));
+                    Pattern pattern = new Pattern(DyeColor.valueOf(strColor), patternType);
                     Objects.requireNonNull(bm).addPattern(pattern);
                 }
             }

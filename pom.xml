@@ -109,8 +109,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Dependency Versions -->
-        <paper.api.version>1.21.4-R0.1-SNAPSHOT</paper.api.version>
-        <spigot.api.version>1.21.4-R0.1-SNAPSHOT</spigot.api.version>
+        <paper.api.version>1.21.11-R0.1-SNAPSHOT</paper.api.version>
         <vault.version>1.7</vault.version>
         <bstats.version>2.2.1</bstats.version>
         <annotations.version>19.0.0</annotations.version>
@@ -266,10 +265,6 @@
 
     <!-- Environment Settings -->
     <repositories>
-        <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
         <repository>
             <id>minebench-repo</id>
             <url>https://repo.minebench.de/</url>
