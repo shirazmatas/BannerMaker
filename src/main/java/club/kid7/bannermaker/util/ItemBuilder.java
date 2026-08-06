@@ -1,6 +1,5 @@
 package club.kid7.bannermaker.util;
 
-import com.cryptomorin.xseries.XMaterial;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
@@ -25,10 +24,6 @@ public class ItemBuilder {
 
     public ItemBuilder(Material material) {
         this(new ItemStack(material));
-    }
-
-    public ItemBuilder(XMaterial xMaterial) {
-        this(xMaterial.parseItem());
     }
 
     public ItemBuilder(ItemStack itemStack) {

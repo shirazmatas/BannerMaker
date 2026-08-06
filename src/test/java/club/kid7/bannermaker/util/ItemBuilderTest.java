@@ -2,7 +2,6 @@ package club.kid7.bannermaker.util;
 
 import club.kid7.bannermaker.BannerMaker;
 import club.kid7.bannermaker.configuration.ConfigManager;
-import com.cryptomorin.xseries.XMaterial;
 import net.kyori.adventure.text.Component;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -52,7 +51,7 @@ class ItemBuilderTest {
 
     @Test
     void build_ShouldCreateFromXMaterial() {
-        ItemStack item = new ItemBuilder(XMaterial.EMERALD).build();
+        ItemStack item = new ItemBuilder(Material.EMERALD).build();
         assertNotNull(item);
         assertEquals(Material.EMERALD, item.getType());
     }

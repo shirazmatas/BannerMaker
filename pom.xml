@@ -20,13 +20,6 @@
             <version>${vault.version}</version>
             <scope>provided</scope>
         </dependency>
-        <!-- bstats -->
-        <dependency>
-            <groupId>org.bstats</groupId>
-            <artifactId>bstats-bukkit</artifactId>
-            <version>${bstats.version}</version>
-            <scope>compile</scope>
-        </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
@@ -65,12 +58,6 @@
             <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.11.0</version> <!-- 與警告訊息中的版本一致 -->
-            <scope>provided</scope>
-        </dependency>
 
         <!-- === Modern Stack === -->
         <!-- ACF (Command Framework) -->
@@ -79,28 +66,11 @@
             <artifactId>acf-paper</artifactId>
             <version>${acf.version}</version>
         </dependency>
-        <!-- Adventure (Text UI) -->
-        <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>adventure-platform-bukkit</artifactId>
-            <version>${adventure.platform.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>adventure-text-minimessage</artifactId>
-            <version>${adventure.version}</version>
-        </dependency>
         <!-- InventoryFramework (GUI) -->
         <dependency>
             <groupId>com.github.stefvanschie.inventoryframework</groupId>
             <artifactId>IF</artifactId>
             <version>${inventory.framework.version}</version>
-        </dependency>
-        <!-- XSeries (Cross-version compatibility) -->
-        <dependency>
-            <groupId>com.github.cryptomorin</groupId>
-            <artifactId>XSeries</artifactId>
-            <version>${xseries.version}</version>
         </dependency>
     </dependencies>
     <properties>
@@ -110,17 +80,13 @@
 
         <!-- Dependency Versions -->
         <paper.api.version>1.21.11-R0.1-SNAPSHOT</paper.api.version>
-        <vault.version>1.7</vault.version>
-        <bstats.version>2.2.1</bstats.version>
+        <vault.version>1.7.1</vault.version>
         <annotations.version>19.0.0</annotations.version>
         <junit.version>5.10.2</junit.version>
         <mockbukkit.version>4.110.0</mockbukkit.version>
         <mockito.version>5.2.0</mockito.version>
         <acf.version>0.5.1-SNAPSHOT</acf.version>
-        <adventure.version>4.17.0</adventure.version>
-        <adventure.platform.version>4.4.1</adventure.platform.version>
         <inventory.framework.version>0.10.14</inventory.framework.version>
-        <xseries.version>11.3.0</xseries.version>
     </properties>
 
     <!-- More Project Information -->
@@ -176,10 +142,6 @@
                     </dependencyReducedPomLocation>
                     <relocations>
                         <relocation>
-                            <pattern>org.bstats</pattern>
-                            <shadedPattern>club.kid7.bannermaker.lib.bstats</shadedPattern>
-                        </relocation>
-                        <relocation>
                             <pattern>co.aikar.commands</pattern>
                             <shadedPattern>club.kid7.bannermaker.lib.acf</shadedPattern>
                         </relocation>
@@ -188,16 +150,8 @@
                             <shadedPattern>club.kid7.bannermaker.lib.locales</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>net.kyori</pattern>
-                            <shadedPattern>club.kid7.bannermaker.lib.kyori</shadedPattern>
-                        </relocation>
-                        <relocation>
                             <pattern>com.github.stefvanschie.inventoryframework</pattern>
                             <shadedPattern>club.kid7.bannermaker.lib.if</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>com.cryptomorin.xseries</pattern>
-                            <shadedPattern>club.kid7.bannermaker.lib.xseries</shadedPattern>
                         </relocation>
                     </relocations>
                     <filters>
@@ -207,7 +161,6 @@
                                 <include>**</include>
                             </includes>
                         </filter>
-                        <!-- ACF、XSeries 不再覆蓋 minimizeJar，由其自動裁減未使用的類別 -->
                         <filter>
                             <artifact>*:*</artifact>
                             <excludes>

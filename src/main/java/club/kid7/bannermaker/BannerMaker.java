@@ -9,7 +9,6 @@ import club.kid7.bannermaker.service.EconomyService;
 import club.kid7.bannermaker.service.MessageService;
 import co.aikar.commands.PaperCommandManager;
 import net.milkbowl.vault.economy.Economy;
-import org.bstats.bukkit.Metrics;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -59,28 +58,6 @@ public class BannerMaker extends JavaPlugin {
         }
         //Reload
         reload();
-        //bStats
-        if (!isUnitTest()) {
-            int pluginId = 383;
-            new Metrics(this, pluginId);
-        }
-    }
-
-    private boolean isUnitTest() {
-        try {
-            Class.forName("org.mockbukkit.mockbukkit.MockBukkit");
-            return true;
-        } catch (ClassNotFoundException e) {
-            return false;
-        }
-    }
-
-    @Override
-    public void onDisable() {
-        // Close Audiences of MessageService
-        if (messageService != null) {
-            messageService.closeAudiences();
-        }
     }
 
     // Provide getter for MessageService

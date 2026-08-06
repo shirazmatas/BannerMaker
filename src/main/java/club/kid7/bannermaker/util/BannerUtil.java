@@ -2,14 +2,13 @@ package club.kid7.bannermaker.util;
 
 import club.kid7.bannermaker.BannerMaker;
 import club.kid7.bannermaker.registry.DyeColorRegistry;
-import com.cryptomorin.xseries.XMaterial;
-import com.cryptomorin.xseries.XTag;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
+import org.bukkit.Tag;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.entity.Player;
@@ -48,7 +47,7 @@ public class BannerUtil {
         if (material == null) {
             return false;
         }
-        return XTag.BANNERS.isTagged(XMaterial.matchXMaterial(material));
+        return Tag.BANNERS.isTagged(material);
     }
 
     /**

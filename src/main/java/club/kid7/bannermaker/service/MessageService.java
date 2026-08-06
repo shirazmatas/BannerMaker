@@ -1,14 +1,9 @@
 package club.kid7.bannermaker.service;
 
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import static club.kid7.bannermaker.configuration.Language.tl;
@@ -18,7 +13,6 @@ public class MessageService {
     // 傳統顏色代碼 '&' 序列化器，用於兼容舊版訊息或確保特定情況下的處理
     // AI Translated: Traditional color code '&' serializer, used for compatibility with old messages or to ensure processing in specific cases
     private final LegacyComponentSerializer legacySerializer;
-    private BukkitAudiences audiences;
 
     /**
      * 建構 MessageService 實例。
@@ -31,20 +25,6 @@ public class MessageService {
         // 配置 LegacyComponentSerializer 支援 '&' 符號
         // AI Translated: Configure LegacyComponentSerializer to support '&' symbol
         this.legacySerializer = LegacyComponentSerializer.builder().character('&').build();
-        // 在建構時就初始化 audiences
-        // AI Translated: Initialize audiences upon construction
-        this.audiences = BukkitAudiences.create(plugin);
-    }
-
-    /**
-     * 關閉 Adventure Audiences。應在插件 onDisable 時呼叫。
-     * AI Translated: Close Adventure Audiences. Should be called when the plugin is onDisable.
-     */
-    public void closeAudiences() {
-        if (this.audiences != null) {
-            this.audiences.close();
-            this.audiences = null;
-        }
     }
 
     /**
@@ -64,26 +44,7 @@ public class MessageService {
      */
     public void send(CommandSender sender, Component message) {
         Component prefixed = tl("general.prefix").append(message);
-        // Workaround: adventure-platform-bukkit 4.4.1 在 Paper 1.21.7+ 會遺失 ClickEvent / HoverEvent，
-        // AI Translated: Workaround: adventure-platform-bukkit 4.4.1 will lose ClickEvent / HoverEvent on Paper 1.21.7+,
-        // 改用 JSON 中介 + Spigot API 繞過此問題
-        // AI Translated: switch to JSON intermediary + Spigot API to bypass this issue
-        if (sender instanceof Player player) {
-            try {
-                String json = GsonComponentSerializer.gson().serialize(prefixed);
-                BaseComponent[] components = ComponentSerializer.parse(json);
-                player.spigot().sendMessage(components);
-                return;
-            } catch (Exception ignored) {
-                // JSON 序列化失敗時回退至 BukkitAudiences
-                // AI Translated: Roll back to BukkitAudiences when JSON serialization fails
-            }
-        }
-        if (audiences == null) {
-            sender.sendMessage(legacySerializer.serialize(prefixed));
-            return;
-        }
-        audiences.sender(sender).sendMessage(prefixed);
+        sender.sendMessage(prefixed);
     }
 
     /**

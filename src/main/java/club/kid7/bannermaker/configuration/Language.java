@@ -7,7 +7,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
-import org.apache.commons.lang.LocaleUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -47,7 +46,8 @@ public class Language {
 
         // Try direct parsing
         try {
-            locale = LocaleUtils.toLocale(normalized);
+            final String[] split = normalized.split("_");
+            locale = Locale.of(split[0], split[1]);
             return normalizeLocale(locale);
         } catch (IllegalArgumentException ignored) {
         }
@@ -55,11 +55,7 @@ public class Language {
         // Try case correction (language lowercase, country uppercase)
         Matcher matcher = Pattern.compile("^([a-zA-Z]{2,3})_([a-zA-Z]{2})$").matcher(normalized);
         if (matcher.matches()) {
-            String corrected = matcher.group(1).toLowerCase() + "_" + matcher.group(2).toUpperCase();
-            try {
-                return LocaleUtils.toLocale(corrected);
-            } catch (IllegalArgumentException ignored) {
-            }
+            return Locale.of(matcher.group(1).toLowerCase(Locale.ROOT), matcher.group(2).toUpperCase(Locale.ROOT));
         }
 
         // All attempts failed, use default language
