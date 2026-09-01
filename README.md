@@ -1,13 +1,20 @@
-# BannerMaker
-Feel banner is fun, but you don't know how to craft?  
-It's too hard to craft, so you make wrong usually?  
-You must try this plugin.
-Reworked version of jyhsu2000's bannermaker.
-Folia supported as ChestGUI swapped with InventoryGUI.
+# BannerMaker EMC Folia Edition
+>Feel banner is fun, but you don't know how to craft?  
+>It's too hard to craft, so you make wrong usually?  
+>You must try this plugin.
+>Jyhsu200's description of BannerMaker
+
+This is a reworked version of jyhsu2000's bannermaker that had two goals in mind at its creation.
+The first was to achieve Folia support by replacing the ChestGUI framework with InventoryGUI, a folia supported framework.
+The second was to make the gameplay related changes needed to make the plugin a better fit for the EarthMC minecraft server.
+
+Since then the difference between the original plugin has expanded some as Jyhsu200 added new features and updated plugin.
+
 ## Description
 
-Using just one command, you can use GUI of this plugin to design any kind of banner.  
-You don't need to know how to craft. All you need to know is how it will look like.
+Bannermaker is centered around being able to open a GUI for designing and creation of banners and the sharing of it.
+This version demands of you to have the items needed to craft the banner as you would in vanilla and consumes the materials that are consumable, while letting you keep the non-consumable.
+Banners can be up to the highest possible of patterns per banner, higher than vanilla.
 
 ## Features
 
@@ -24,6 +31,8 @@ You don't need to know how to craft. All you need to know is how it will look li
 2. Enjoy it
 
 ## Commands
+
+(Permissions are up to be changed)
 
 | **Command**    | **Description**                                  | **Permission**       |
 |----------------|--------------------------------------------------|----------------------|
@@ -54,9 +63,8 @@ You don't need to know how to craft. All you need to know is how it will look li
 
 ## Pictures
 
+Images property of Jyhsu200
 ![Main menu](http://i.imgur.com/rMTTfsE.png)  
 ![Create banner](http://i.imgur.com/HB6Dhm3.png)  
 ![Banner info](http://i.imgur.com/Xydmcbj.png)  
 ![Alphabet & Number](http://i.imgur.com/tGHmakp.png)
-
-[![bStats](https://bstats.org/signatures/bukkit/BannerMaker.svg)](https://bstats.org/plugin/bukkit/BannerMaker)
